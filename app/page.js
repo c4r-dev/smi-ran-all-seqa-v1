@@ -90,13 +90,7 @@ export default function Page() {
       <h2 className="responsive-text">
         Generate new sequences multiple times to observe patterns (n=30).
       </h2>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginTop: "20px"
-        }}
-      >
+      <div className="sequence-container">
         {["s1", "s2", "s3"].map((key, idx) => (
           <div
             key={key}
@@ -107,7 +101,7 @@ export default function Page() {
           >
             <h3>Sequence {idx + 1}</h3>
             <p style={{ wordWrap: "break-word" }}>{sequences[key].join(" ")}</p>
-            <Plot {...makeCountPlot(sequences[key])} style={{ width: "100%", height: "200px" }} />
+            <Plot {...makeCountPlot(sequences[key])} style={{ width: "100%", height: "auto", minHeight: "180px" }} />
             <p>Longest run: {getLongestRun(sequences[key])}</p>
           </div>
         ))}
