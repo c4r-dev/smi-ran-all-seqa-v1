@@ -2,8 +2,8 @@ import "./globals.css";
 import FaviconButton from "./components/FaviconButton";
 
 export const metadata = {
-  title: "allocation sequence A",
-  description: "allocation sequence A",
+  title: "Which of these sequences was random?",
+  description: "Which of these sequences was random?",
 };
 
 export default function RootLayout({ children }) {
@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
           {/* Title container for responsive width */}
           <div className="title-container">
             <h1 className="title">
-            allocation sequence A
+              Which of these sequences is random?
             </h1>
           </div>
         </header>

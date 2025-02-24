@@ -58,7 +58,7 @@ const makeCountPlot = (sequence) => {
         x: Object.keys(counts),
         y: Object.values(counts),
         type: "bar",
-        marker: { color: ["blue", "red"] },
+        marker: { color: ["#39E1F8", "#FFA800"] },
       },
     ],
     layout: {
@@ -86,19 +86,25 @@ export default function Page() {
   }
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Consider these "random" sequences</h1>
-      <button onClick={() => setSequences({
-        s1: generateSystematic(),
-        s2: generateManual(),
-        s3: generateRandom(),
-      })}>
-        Generate new sequences (N=30)
-      </button>
-      <p>Which one do you think is truly randomized?</p>
-      <div style={{ display: "flex", justifyContent: "space-between", marginTop: "20px" }}>
+    <div>
+      <h2 className="responsive-text">
+        Generate new sequences multiple times to observe patterns (n=30).
+      </h2>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginTop: "20px"
+        }}
+      >
         {["s1", "s2", "s3"].map((key, idx) => (
-          <div key={key} style={{ flex: 1, margin: "0 10px" }}>
+          <div
+            key={key}
+            style={{
+              flex: 1,
+              margin: "0 10px"
+            }}
+          >
             <h3>Sequence {idx + 1}</h3>
             <p style={{ wordWrap: "break-word" }}>{sequences[key].join(" ")}</p>
             <Plot {...makeCountPlot(sequences[key])} style={{ width: "100%", height: "200px" }} />
@@ -106,6 +112,15 @@ export default function Page() {
           </div>
         ))}
       </div>
+
+      <button className="regenerate-button" onClick={() => setSequences({
+        s1: generateSystematic(),
+        s2: generateManual(),
+        s3: generateRandom(),
+      })}>
+        Generate new sequences
+      </button>
+
     </div>
   );
 }
