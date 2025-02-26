@@ -173,7 +173,7 @@ export default function Page() {
       </table>
 
       <h3 style={{ fontWeight: "bold", textAlign: "left", marginTop: "20px" }}>
-        Select which sequence you think is random.
+        Select which sequence you think is random: RADIO BUTTONS
       </h3>
 
       <p style={{ textAlign: "left", marginTop: "10px" }}>
