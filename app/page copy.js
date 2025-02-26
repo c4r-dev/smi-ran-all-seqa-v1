@@ -91,9 +91,23 @@ export default function Page() {
 
     const newEntry = {
       generation: generationCount + 1,
-      systematic: { ...countOccurrences(newSequences.s1), longestRun: getLongestRun(newSequences.s1) },
-      manual: { ...countOccurrences(newSequences.s2), longestRun: getLongestRun(newSequences.s2) },
-      random: { ...countOccurrences(newSequences.s3), longestRun: getLongestRun(newSequences.s3) },
+      sequences: [
+        {
+          type: "Systematic",
+          ...countOccurrences(newSequences.s1),
+          longestRun: getLongestRun(newSequences.s1),
+        },
+        {
+          type: "Manual",
+          ...countOccurrences(newSequences.s2),
+          longestRun: getLongestRun(newSequences.s2),
+        },
+        {
+          type: "Random",
+          ...countOccurrences(newSequences.s3),
+          longestRun: getLongestRun(newSequences.s3),
+        },
+      ],
     };
 
     setSequences(newSequences);
@@ -135,40 +149,28 @@ export default function Page() {
         <thead>
           <tr style={{ backgroundColor: "#f2f2f2", textAlign: "left" }}>
             <th>Generation</th>
-            <th colSpan="3">Sequence 1</th>
-            <th colSpan="3">Sequence 2</th>
-            <th colSpan="3">Sequence 3</th>
-          </tr>
-          <tr style={{ backgroundColor: "#e6e6e6", textAlign: "left" }}>
-            <th></th>
-            <th>A</th>
-            <th>B</th>
-            <th>Run</th>
-            <th>A</th>
-            <th>B</th>
-            <th>Run</th>
-            <th>A</th>
-            <th>B</th>
-            <th>Run</th>
+            <th>Type</th>
+            <th>Number of A</th>
+            <th>Number of B</th>
+            <th>Longest Run</th>
           </tr>
         </thead>
         <tbody>
-          {history.map((entry) => (
-            <tr key={entry.generation} style={{ borderBottom: "1px solid #ddd" }}>
-              <td style={{ textAlign: "center", fontWeight: "bold", backgroundColor: "#e6e6e6" }}>
-                {entry.generation}
-              </td>
-              <td>{entry.systematic.A}</td>
-              <td>{entry.systematic.B}</td>
-              <td>{entry.systematic.longestRun}</td>
-              <td>{entry.manual.A}</td>
-              <td>{entry.manual.B}</td>
-              <td>{entry.manual.longestRun}</td>
-              <td>{entry.random.A}</td>
-              <td>{entry.random.B}</td>
-              <td>{entry.random.longestRun}</td>
-            </tr>
-          ))}
+          {history.map((entry) =>
+            entry.sequences.map((seq, index) => (
+              <tr key={`${entry.generation}-${seq.type}`} style={{ borderBottom: "1px solid #ddd" }}>
+                {index === 0 && (
+                  <td rowSpan="3" style={{ textAlign: "center", fontWeight: "bold", backgroundColor: "#e6e6e6" }}>
+                    {entry.generation}
+                  </td>
+                )}
+                <td>{seq.type}</td>
+                <td>{seq.A}</td>
+                <td>{seq.B}</td>
+                <td>{seq.longestRun}</td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>
