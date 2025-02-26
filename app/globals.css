@@ -120,7 +120,7 @@ h2 {
   max-width: 250px;
   text-align: center;
   margin: 20px auto;
-  padding: 12px 24px;
+  padding: 12px 12px;
   font-size: 16px;
   font-weight: bold;
   background-color: #6F00FF;
@@ -146,6 +146,57 @@ h2 {
   font-size: clamp(16px, 4vw, 22px);
   padding: 0 0%;
   margin: 120px auto 20px auto;
+}
+
+/* Styling for radio buttons */
+/* Centering the radio-container */
+.radio-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* Centering radio-group */
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+/* Styling for radio buttons */
+.radio-group input[type="radio"] {
+  appearance: none; /* Remove default styles */
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid rgba(111, 0, 255, 0.4); /* 40% opacity of #6F00FF */
+  background-color: white; /* White inside */
+  outline: none;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Full purple when selected */
+.radio-group input[type="radio"]:checked {
+  background-color: #6F00FF; /* Full purple */
+  border-color: #6F00FF; /* Full purple */
+}
+
+/* Ensure the label and radio button are aligned */
+.radio-group label {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  /* font-weight: bold; */
+  cursor: pointer;
+  gap: 8px; /* Space between radio and text */
 }
 
 /* Responsive Adjustments */

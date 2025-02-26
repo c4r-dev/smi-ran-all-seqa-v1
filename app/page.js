@@ -131,7 +131,7 @@ export default function Page() {
 
       {/* Generation History Table */}
       <h2>Generation History</h2>
-      <table border="1" cellPadding="5" style={{ width: "100%", marginTop: "20px", borderCollapse: "collapse", paddingLeft: "10px" }}>
+      <table border="1" cellPadding="5" style={{ width: "100%", marginTop: "10px", borderCollapse: "collapse", paddingLeft: "10px" }}>
         <thead>
           <tr style={{ backgroundColor: "#f2f2f2", textAlign: "center" }}>
             <th>Generation</th>
@@ -158,27 +158,45 @@ export default function Page() {
               <td style={{ textAlign: "center", fontWeight: "bold", backgroundColor: "#e6e6e6" }}>
                 {entry.generation}
               </td>
-              <td style={{ textAlign: "center"}}>{entry.systematic.A}</td>
-              <td style={{ textAlign: "center"}}>{entry.systematic.B}</td>
-              <td style={{ textAlign: "center"}}>{entry.systematic.longestRun}</td>
-              <td style={{ textAlign: "center"}}>{entry.manual.A}</td>
-              <td style={{ textAlign: "center"}}>{entry.manual.B}</td>
-              <td style={{ textAlign: "center"}}>{entry.manual.longestRun}</td>
-              <td style={{ textAlign: "center"}}>{entry.random.A}</td>
-              <td style={{ textAlign: "center"}}>{entry.random.B}</td>
-              <td style={{ textAlign: "center"}}>{entry.random.longestRun}</td>
+              <td style={{ textAlign: "center" }}>{entry.systematic.A}</td>
+              <td style={{ textAlign: "center" }}>{entry.systematic.B}</td>
+              <td style={{ textAlign: "center" }}>{entry.systematic.longestRun}</td>
+              <td style={{ textAlign: "center" }}>{entry.manual.A}</td>
+              <td style={{ textAlign: "center" }}>{entry.manual.B}</td>
+              <td style={{ textAlign: "center" }}>{entry.manual.longestRun}</td>
+              <td style={{ textAlign: "center" }}>{entry.random.A}</td>
+              <td style={{ textAlign: "center" }}>{entry.random.B}</td>
+              <td style={{ textAlign: "center" }}>{entry.random.longestRun}</td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      <h3 style={{ fontWeight: "bold", textAlign: "left", marginTop: "20px" }}>
-        Select which sequence you think is random: RADIO BUTTONS
+      <div className="radio-container">
+        <h3>Select which sequence you think is random:</h3>
+        <div className="radio-group">
+          <label>
+            <input type="radio" name="random-sequence" value="1" />
+            Sequence 1
+          </label>
+          <label>
+            <input type="radio" name="random-sequence" value="2" />
+            Sequence 2
+          </label>
+          <label>
+            <input type="radio" name="random-sequence" value="3" />
+            Sequence 3
+          </label>
+        </div>
+      </div>
+
+      <h3 style={{
+        textAlign: "center",
+        paddingTop: "10px" 
+      }}>
+        Why do you think your selected sequence is the truly random one?
       </h3>
 
-      <p style={{ textAlign: "left", marginTop: "10px" }}>
-        Why do you think your selected sequence is the truly random one?
-      </p>
 
       {/* Textbox for user input */}
       <textarea
@@ -186,8 +204,7 @@ export default function Page() {
         style={{
           width: "100%",
           height: "100px",
-          marginTop: "10px",
-          padding: "10px",
+          padding: "5px",
           fontSize: "16px",
           borderRadius: "5px",
           border: "1px solid #ccc",
