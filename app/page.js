@@ -82,6 +82,10 @@ export default function Page() {
   const [history, setHistory] = useState([]);
   const [generationCount, setGenerationCount] = useState(0);
 
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [textInput, setTextInput] = useState("");
+
+
   const generateNewSequences = () => {
     const newSequences = {
       s1: generateSystematic(),
@@ -108,6 +112,15 @@ export default function Page() {
   if (!sequences) {
     return <p>Loading...</p>;
   }
+
+  const handleRadioChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
+
+  const handleTextChange = (event) => {
+    setTextInput(event.target.value);
+  };
+
 
   return (
     <div>
@@ -176,15 +189,15 @@ export default function Page() {
         <h3>Select which sequence you think is random:</h3>
         <div className="radio-group">
           <label>
-            <input type="radio" name="random-sequence" value="1" />
+            <input type="radio" name="random-sequence" value="1" onChange={handleRadioChange} />
             Sequence 1
           </label>
           <label>
-            <input type="radio" name="random-sequence" value="2" />
+            <input type="radio" name="random-sequence" value="2" onChange={handleRadioChange} />
             Sequence 2
           </label>
           <label>
-            <input type="radio" name="random-sequence" value="3" />
+            <input type="radio" name="random-sequence" value="3" onChange={handleRadioChange} />
             Sequence 3
           </label>
         </div>
@@ -192,7 +205,7 @@ export default function Page() {
 
       <h3 style={{
         textAlign: "center",
-        paddingTop: "10px" 
+        paddingTop: "10px"
       }}>
         Why do you think your selected sequence is the truly random one?
       </h3>
@@ -211,12 +224,22 @@ export default function Page() {
           border: "1px solid #ccc",
           resize: "vertical"
         }}
+        onChange={handleTextChange}
       ></textarea>
 
       {/* Compare Answer Button */}
-      <button className="regenerate-button" style={{ marginTop: "10px" }}>
+      <button
+        className="compare-answer-button"
+        style={{
+          marginTop: "10px",
+          opacity: selectedOption && textInput ? "1" : "0.4",
+          cursor: selectedOption && textInput ? "pointer" : "not-allowed"
+        }}
+        disabled={!selectedOption && !textInput}
+      >
         Compare Answer
       </button>
+
 
     </div>
   );

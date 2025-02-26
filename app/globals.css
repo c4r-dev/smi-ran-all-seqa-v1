@@ -103,6 +103,30 @@ h2 {
   margin: 0 auto;  /* Center it */
 }
 
+.compare-answer-button {
+  display: block;
+  width: 100%;
+  max-width: 250px;
+  text-align: center;
+  margin: 10px auto;
+  padding: 10px 5px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #6F00FF; /* Purple */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+/* Disabled state */
+.compare-answer-button:disabled {
+  opacity: 0.4; /* 40% opacity */
+  cursor: not-allowed;
+  /* background-color: #a38be0; Lighter purple */
+}
+
 /* Ensure 3 columns on large screens */
 @media (min-width: 1024px) {
   .sequence-container {
