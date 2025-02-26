@@ -205,6 +205,7 @@ export default function Page() {
           width: "100%",
           height: "100px",
           padding: "5px",
+          fontFamily: "'General Sans', sans-serif",
           fontSize: "16px",
           borderRadius: "5px",
           border: "1px solid #ccc",
