@@ -85,7 +85,6 @@ export default function Page() {
   const [selectedOption, setSelectedOption] = useState(null);
   const [textInput, setTextInput] = useState("");
 
-
   const generateNewSequences = () => {
     const newSequences = {
       s1: generateSystematic(),
@@ -121,6 +120,35 @@ export default function Page() {
     setTextInput(event.target.value);
   };
 
+  const handleAlert = () => {
+    alert("\nSelect which sequence you think is random. is not selected.\n\nand/or\n\nWhy do you think your selected sequence is the truly random one? is blank.");
+  };
+
+  const handleSubmit = async () => {
+    if (!selectedOption || !textInput) {
+      handleAlert();
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ selectedOption, textInput }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit data");
+      }
+
+      alert("Thank you for your input!");
+    } catch (error) {
+      console.error("Error submitting data:", error);
+      alert("An error occurred while saving your response.");
+    }
+  };
 
   return (
     <div>
@@ -186,7 +214,7 @@ export default function Page() {
       </table>
 
       <div className="radio-container">
-        <h3>Select which sequence you think is random:</h3>
+        <h3>Select which sequence you think is random.</h3>
         <div className="radio-group">
           <label>
             <input type="radio" name="random-sequence" value="1" onChange={handleRadioChange} />
@@ -227,19 +255,25 @@ export default function Page() {
         onChange={handleTextChange}
       ></textarea>
 
-      {/* Compare Answer Button */}
-      <button
-        className="compare-answer-button"
-        style={{
-          marginTop: "10px",
-          opacity: selectedOption && textInput ? "1" : "0.4",
-          cursor: selectedOption && textInput ? "pointer" : "not-allowed"
-        }}
-        disabled={!selectedOption && !textInput}
-      >
-        Compare Answer
-      </button>
-
+      <div>
+        {/* Compare Answer Button */}
+        <button
+          className="compare-answer-button"
+          style={{
+            marginTop: "10px",
+            opacity: selectedOption && textInput ? "1" : "0.4",
+            cursor: selectedOption && textInput ? "pointer" : "not-allowed",
+          }}
+          onMouseEnter={() => {
+            if (!selectedOption || !textInput) {
+              handleAlert();
+            }
+          }}
+          onClick={handleSubmit}
+        >
+          Compare Answer
+        </button>
+      </div>
 
     </div>
   );
