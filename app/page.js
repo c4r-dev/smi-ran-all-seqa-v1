@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 
 const Plot = dynamic(() => import("react-plotly.js"), { ssr: false });
 
@@ -85,6 +86,8 @@ export default function Page() {
   const [selectedOption, setSelectedOption] = useState(null);
   const [textInput, setTextInput] = useState("");
 
+  const router = useRouter();
+
   const generateNewSequences = () => {
     const newSequences = {
       s1: generateSystematic(),
@@ -143,7 +146,8 @@ export default function Page() {
         throw new Error("Failed to submit data");
       }
 
-      alert("Thank you for your input!");
+      router.push("/success");
+
     } catch (error) {
       console.error("Error submitting data:", error);
       alert("An error occurred while saving your response.");
