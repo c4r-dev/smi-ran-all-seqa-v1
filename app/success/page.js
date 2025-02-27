@@ -1,12 +1,30 @@
+"use client";
+import { useEffect, useState } from "react";
+
 export default function SuccessPage() {
-    return (
-      <div style={{ textAlign: "center", padding: "50px" }}>
-        <h2>Submission Successful</h2>
-        <p>Your response has been successfully saved to the database.</p>
-        <a href="/" style={{ color: "#6F00FF", textDecoration: "underline" }}>
-          Go back to Home
-        </a>
-      </div>
-    );
-  }
-  
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/data")
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.success) setData(result.data);
+      })
+      .catch((err) => console.error("Error fetching data:", err));
+  }, []);
+
+  return (
+    <div>
+      <h2 className="responsive-text">
+        Here's how your classmates answered. Review their reasoning before revealing which sequence was truly random.
+      </h2>
+      <ul>
+        {data.map((item, index) => (
+          <li key={index}>
+            {JSON.stringify(item)}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
