@@ -44,8 +44,8 @@ export default function SuccessPage() {
               };
               cnt2++
             } else {
-              s1 = tableEntries[cnt3].selected2;
-              s2 = tableEntries[cnt3].selected3;
+              s1 = tableEntries[cnt3].selected1;
+              s2 = tableEntries[cnt3].selected2;
               tableEntries[cnt3] = {
                 selected3: item.textInput,
                 selected2: s2,
