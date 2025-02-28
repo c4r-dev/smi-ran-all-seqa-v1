@@ -6,8 +6,14 @@ export default function SuccessPage() {
   const [data, setData] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [showRandomSequence, setShowRandomSequence] = useState(false);
+  const [chartHeight, setChartHeight] = useState(400);
 
   useEffect(() => {
+
+    if (typeof window !== "undefined") {
+      setChartHeight(window.innerWidth < 600 ? 300 : 400);
+    }
+
     fetch("/api/data")
       .then((res) => res.json())
       .then((result) => {
@@ -94,9 +100,9 @@ export default function SuccessPage() {
         Here's how your classmates answered. Review their reasoning before revealing which sequence was truly random.
       </h2>
 
-      <ResponsiveContainer width="100%" height={window.innerWidth < 600 ? 300 : 400}>
-        <BarChart 
-          data={data} 
+      <ResponsiveContainer width="100%" height={chartHeight}>
+        <BarChart
+          data={data}
           margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
         >
           <text
@@ -107,7 +113,7 @@ export default function SuccessPage() {
           >
             Distribution of Selections
           </text>
-           
+
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="sequence" />
           <YAxis allowDecimals={false} label={{ value: "Number of Students", angle: -90, position: "insideLeft" }} />
