@@ -94,8 +94,11 @@ export default function SuccessPage() {
         Here's how your classmates answered. Review their reasoning before revealing which sequence was truly random.
       </h2>
 
-      <ResponsiveContainer width="100%" height={400}>
-        <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+      <ResponsiveContainer width="100%" height={window.innerWidth < 600 ? 300 : 400}>
+        <BarChart 
+          data={data} 
+          margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+        >
           <text
             x="50%"
             y={20}
@@ -104,6 +107,7 @@ export default function SuccessPage() {
           >
             Distribution of Selections
           </text>
+           
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="sequence" />
           <YAxis allowDecimals={false} label={{ value: "Number of Students", angle: -90, position: "insideLeft" }} />

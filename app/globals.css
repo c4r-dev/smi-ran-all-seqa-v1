@@ -239,12 +239,32 @@ h2 {
 @media (max-width: 768px) {
   .header {
     flex-direction: column;
-    /* Stack elements in header */
+    text-align: center;
     height: auto;
     padding: 10px;
     flex-wrap: wrap;
     height: auto;
     align-items: center;
+  }
+
+  .favicon-button {
+    margin-bottom: 10px;
+  }
+
+  .sequence-container {
+    grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .compare-answer-button,
+  .regenerate-button {
+    width: 90%;
+    max-width: 250px;
   }
 
   .title-container {
@@ -267,17 +287,51 @@ h2 {
     margin-top: 100px;
     /* Less space for medium screens */
   }
+
+  .scrollable-table {
+    max-height: 250px;
+    overflow-x: auto;
+    border: 1px solid #ddd;
+    width: 100%;
+    border-radius: 5px;
+  }
+
+  .table-container {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+
+  th, td {
+    font-size: 14px;
+    padding: 6px;
+  }
 }
 
 @media (max-width: 480px) {
+
+  h2 {
+    font-size: 1rem;
+    padding: 0 5%;
+  }
+
   .responsive-text {
-    margin-top: 80px;
+    margin-top: 50px;
     font-size: 14px;
     padding: 40px 0 0 0;
   }
 
+  .sequence-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
   .regenerate-button {
     width: 100%;
     font-size: 14px;
   }
+
+  .scrollable-table {
+    max-height: 200px;
+  }
+
 }

@@ -176,109 +176,112 @@ export default function Page() {
 
       {/* Generation History Table */}
       <h2>Generation History</h2>
-      <table border="1" cellPadding="5" style={{ width: "100%", marginTop: "10px", borderCollapse: "collapse", paddingLeft: "10px" }}>
-        <thead>
-          <tr style={{ backgroundColor: "#f2f2f2", textAlign: "center" }}>
-            <th>Generation</th>
-            <th colSpan="3">Sequence 1</th>
-            <th colSpan="3">Sequence 2</th>
-            <th colSpan="3">Sequence 3</th>
-          </tr>
-          <tr style={{ backgroundColor: "#e6e6e6", textAlign: "center" }}>
-            <th></th>
-            <th>A</th>
-            <th>B</th>
-            <th>Run</th>
-            <th>A</th>
-            <th>B</th>
-            <th>Run</th>
-            <th>A</th>
-            <th>B</th>
-            <th>Run</th>
-          </tr>
-        </thead>
-        <tbody>
-          {history.map((entry) => (
-            <tr key={entry.generation} style={{ borderBottom: "1px solid #ddd" }}>
-              <td style={{ textAlign: "center", fontWeight: "bold", backgroundColor: "#e6e6e6" }}>
-                {entry.generation}
-              </td>
-              <td style={{ textAlign: "center" }}>{entry.systematic.A}</td>
-              <td style={{ textAlign: "center" }}>{entry.systematic.B}</td>
-              <td style={{ textAlign: "center" }}>{entry.systematic.longestRun}</td>
-              <td style={{ textAlign: "center" }}>{entry.manual.A}</td>
-              <td style={{ textAlign: "center" }}>{entry.manual.B}</td>
-              <td style={{ textAlign: "center" }}>{entry.manual.longestRun}</td>
-              <td style={{ textAlign: "center" }}>{entry.random.A}</td>
-              <td style={{ textAlign: "center" }}>{entry.random.B}</td>
-              <td style={{ textAlign: "center" }}>{entry.random.longestRun}</td>
+      <div style={{ overflowX: "auto" }}>
+        <table border="1" cellPadding="5" style={{ width: "100%", marginTop: "10px", borderCollapse: "collapse" }}>
+
+          <thead>
+            <tr style={{ backgroundColor: "#f2f2f2", textAlign: "center" }}>
+              <th>Generation</th>
+              <th colSpan="3">Sequence 1</th>
+              <th colSpan="3">Sequence 2</th>
+              <th colSpan="3">Sequence 3</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <div className="radio-container">
-        <h3>Select which sequence you think is random.</h3>
-        <div className="radio-group">
-          <label>
-            <input type="radio" name="random-sequence" value="1" onChange={handleRadioChange} />
-            Sequence 1
-          </label>
-          <label>
-            <input type="radio" name="random-sequence" value="2" onChange={handleRadioChange} />
-            Sequence 2
-          </label>
-          <label>
-            <input type="radio" name="random-sequence" value="3" onChange={handleRadioChange} />
-            Sequence 3
-          </label>
+            <tr style={{ backgroundColor: "#e6e6e6", textAlign: "center" }}>
+              <th></th>
+              <th>A</th>
+              <th>B</th>
+              <th>Run</th>
+              <th>A</th>
+              <th>B</th>
+              <th>Run</th>
+              <th>A</th>
+              <th>B</th>
+              <th>Run</th>
+            </tr>
+          </thead>
+          <tbody>
+            {history.map((entry) => (
+              <tr key={entry.generation} style={{ borderBottom: "1px solid #ddd" }}>
+                <td style={{ textAlign: "center", fontWeight: "bold", backgroundColor: "#e6e6e6" }}>
+                  {entry.generation}
+                </td>
+                <td style={{ textAlign: "center" }}>{entry.systematic.A}</td>
+                <td style={{ textAlign: "center" }}>{entry.systematic.B}</td>
+                <td style={{ textAlign: "center" }}>{entry.systematic.longestRun}</td>
+                <td style={{ textAlign: "center" }}>{entry.manual.A}</td>
+                <td style={{ textAlign: "center" }}>{entry.manual.B}</td>
+                <td style={{ textAlign: "center" }}>{entry.manual.longestRun}</td>
+                <td style={{ textAlign: "center" }}>{entry.random.A}</td>
+                <td style={{ textAlign: "center" }}>{entry.random.B}</td>
+                <td style={{ textAlign: "center" }}>{entry.random.longestRun}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      
+        <div className="radio-container">
+          <h3>Select which sequence you think is random.</h3>
+          <div className="radio-group">
+            <label>
+              <input type="radio" name="random-sequence" value="1" onChange={handleRadioChange} />
+              Sequence 1
+            </label>
+            <label>
+              <input type="radio" name="random-sequence" value="2" onChange={handleRadioChange} />
+              Sequence 2
+            </label>
+            <label>
+              <input type="radio" name="random-sequence" value="3" onChange={handleRadioChange} />
+              Sequence 3
+            </label>
+          </div>
         </div>
-      </div>
 
-      <h3 style={{
-        textAlign: "center",
-        paddingTop: "10px"
-      }}>
-        Why do you think your selected sequence is the truly random one?
-      </h3>
+        <h3 style={{
+          textAlign: "center",
+          paddingTop: "10px"
+        }}>
+          Why do you think your selected sequence is the truly random one?
+        </h3>
 
 
-      {/* Textbox for user input */}
-      <textarea
-        placeholder="Explain your reasoning..."
-        style={{
-          width: "100%",
-          height: "100px",
-          padding: "5px",
-          fontFamily: "'General Sans', sans-serif",
-          fontSize: "16px",
-          borderRadius: "5px",
-          border: "1px solid #ccc",
-          resize: "vertical"
-        }}
-        onChange={handleTextChange}
-      ></textarea>
-
-      <div>
-        {/* Compare Answer Button */}
-        <button
-          className="compare-answer-button"
+        {/* Textbox for user input */}
+        <textarea
+          placeholder="Explain your reasoning..."
           style={{
-            marginTop: "10px",
-            opacity: selectedOption && textInput ? "1" : "0.4",
-            cursor: selectedOption && textInput ? "pointer" : "not-allowed",
+            width: "100%",
+            height: "100px",
+            padding: "5px",
+            fontFamily: "'General Sans', sans-serif",
+            fontSize: "16px",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+            resize: "vertical"
           }}
-          onMouseEnter={() => {
-            if (!selectedOption || !textInput) {
-              handleAlert();
-            }
-          }}
-          onClick={handleSubmit}
-        >
-          Compare Answer
-        </button>
-      </div>
+          onChange={handleTextChange}
+        ></textarea>
 
-    </div>
-  );
+        <div>
+          {/* Compare Answer Button */}
+          <button
+            className="compare-answer-button"
+            style={{
+              marginTop: "10px",
+              opacity: selectedOption && textInput ? "1" : "0.4",
+              cursor: selectedOption && textInput ? "pointer" : "not-allowed",
+            }}
+            onMouseEnter={() => {
+              if (!selectedOption || !textInput) {
+                handleAlert();
+              }
+            }}
+            onClick={handleSubmit}
+          >
+            Compare Answer
+          </button>
+        </div>
+
+      </div>
+      );
 }
