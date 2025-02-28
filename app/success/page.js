@@ -5,6 +5,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 export default function SuccessPage() {
   const [data, setData] = useState([]);
   const [tableData, setTableData] = useState([]);
+  const [showRandomSequence, setShowRandomSequence] = useState(false);
 
   useEffect(() => {
     fetch("/api/data")
@@ -17,7 +18,7 @@ export default function SuccessPage() {
           const countMap = { 1: 0, 2: 0, 3: 0 };
 
           const tableEntries = Array(100).fill().map(() => ({ selected1: "", selected2: "", selected3: "" }));
-          var cnt1=0, cnt2=0, cnt3=0;
+          var cnt1 = 0, cnt2 = 0, cnt3 = 0;
           var s1, s2, s3;
 
           result.data.forEach((item) => {
@@ -56,7 +57,7 @@ export default function SuccessPage() {
           });
 
           // Limit table data to 20 rows max
-          var slice=10;
+          var slice = 10;
           if (cnt1 > cnt2 && cnt1 > cnt3) {
             slice = cnt1;
           } else if (cnt2 > cnt1 && cnt2 > cnt3) {
@@ -141,6 +142,18 @@ export default function SuccessPage() {
             </tbody>
           </table>
         </div>
+
+        {/* Reveal the Random Sequence Button */}
+        <button className="regenerate-button" onClick={() => setShowRandomSequence(true)}>
+          Reveal the Random Sequence
+        </button>
+
+        {showRandomSequence && (
+          <div className="random-sequence-message">
+            Sequence 3 was the truly random sequence.
+          </div>
+        )}
+
       </div>
 
       <style jsx>{`
