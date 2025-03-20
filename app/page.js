@@ -11,21 +11,19 @@ const generateSystematic = (n = 30) => {
 };
 
 const generateManual = (n = 30) => {
-  const result = [];
-  let lastThree = ["A", "B", "A"];
+  // Ensure n is even for equal distribution
+  if (n % 2 !== 0) n = n + 1;
 
-  for (let i = 0; i < n; i++) {
-    if (lastThree.every((x) => x === "A")) {
-      result.push("B");
-    } else if (lastThree.every((x) => x === "B")) {
-      result.push("A");
-    } else {
-      result.push(Math.random() < 0.5 ? "A" : "B");
-    }
-    lastThree = [...lastThree.slice(1), result[i]];
+  // Create an array with exactly n/2 As and n/2 Bs
+  const elements = Array(n / 2).fill('A').concat(Array(n / 2).fill('B'));
+
+  // Shuffle the array using Fisher-Yates algorithm
+  for (let i = elements.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [elements[i], elements[j]] = [elements[j], elements[i]];
   }
 
-  return result;
+  return elements;
 };
 
 const generateRandom = (n = 30) => {
@@ -219,69 +217,69 @@ export default function Page() {
           </tbody>
         </table>
       </div>
-      
-        <div className="radio-container">
-          <h3>Select which sequence you think is random.</h3>
-          <div className="radio-group">
-            <label>
-              <input type="radio" name="random-sequence" value="1" onChange={handleRadioChange} />
-              Sequence 1
-            </label>
-            <label>
-              <input type="radio" name="random-sequence" value="2" onChange={handleRadioChange} />
-              Sequence 2
-            </label>
-            <label>
-              <input type="radio" name="random-sequence" value="3" onChange={handleRadioChange} />
-              Sequence 3
-            </label>
-          </div>
+
+      <div className="radio-container">
+        <h3>Select which sequence you think is random.</h3>
+        <div className="radio-group">
+          <label>
+            <input type="radio" name="random-sequence" value="1" onChange={handleRadioChange} />
+            Sequence 1
+          </label>
+          <label>
+            <input type="radio" name="random-sequence" value="2" onChange={handleRadioChange} />
+            Sequence 2
+          </label>
+          <label>
+            <input type="radio" name="random-sequence" value="3" onChange={handleRadioChange} />
+            Sequence 3
+          </label>
         </div>
-
-        <h3 style={{
-          textAlign: "center",
-          paddingTop: "10px"
-        }}>
-          Why do you think your selected sequence is the truly random one?
-        </h3>
-
-
-        {/* Textbox for user input */}
-        <textarea
-          placeholder="Explain your reasoning..."
-          style={{
-            width: "100%",
-            height: "100px",
-            padding: "5px",
-            fontFamily: "'General Sans', sans-serif",
-            fontSize: "16px",
-            borderRadius: "5px",
-            border: "1px solid #ccc",
-            resize: "vertical"
-          }}
-          onChange={handleTextChange}
-        ></textarea>
-
-        <div>
-          {/* Compare Answer Button */}
-          <button
-            className="compare-answer-button"
-            style={{
-              marginTop: "10px",
-              opacity: selectedOption && textInput ? "1" : "0.4",
-              cursor: selectedOption && textInput ? "pointer" : "not-allowed",
-            }}
-            onMouseEnter={() => {
-              if (!selectedOption || !textInput) {
-                handleAlert();
-              }
-            }}
-            onClick={handleSubmit}
-          >
-            Compare Answer
-          </button>
-        </div>
-
       </div>
-      );
+
+      <h3 style={{
+        textAlign: "center",
+        paddingTop: "10px"
+      }}>
+        Why do you think your selected sequence is the truly random one?
+      </h3>
+
+
+      {/* Textbox for user input */}
+      <textarea
+        placeholder="Explain your reasoning..."
+        style={{
+          width: "100%",
+          height: "100px",
+          padding: "5px",
+          fontFamily: "'General Sans', sans-serif",
+          fontSize: "16px",
+          borderRadius: "5px",
+          border: "1px solid #ccc",
+          resize: "vertical"
+        }}
+        onChange={handleTextChange}
+      ></textarea>
+
+      <div>
+        {/* Compare Answer Button */}
+        <button
+          className="compare-answer-button"
+          style={{
+            marginTop: "10px",
+            opacity: selectedOption && textInput ? "1" : "0.4",
+            cursor: selectedOption && textInput ? "pointer" : "not-allowed",
+          }}
+          onMouseEnter={() => {
+            if (!selectedOption || !textInput) {
+              handleAlert();
+            }
+          }}
+          onClick={handleSubmit}
+        >
+          Compare Answer
+        </button>
+      </div>
+
+    </div>
+  );
 }
