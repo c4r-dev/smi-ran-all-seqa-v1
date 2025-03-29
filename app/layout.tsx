@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
           {/* Title container for responsive width */}
           <div className="title-container">
             <h1 className="title">
-              Which of these sequences is random?
+              Which of these sequences was random?
             </h1>
           </div>
         </header>
