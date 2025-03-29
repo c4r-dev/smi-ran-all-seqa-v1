@@ -313,11 +313,6 @@ export default function Page() {
             opacity: selectedOption && textInput ? "1" : "0.4",
             cursor: selectedOption && textInput ? "pointer" : "not-allowed",
           }}
-          onMouseEnter={() => {
-            if (!selectedOption || !textInput) {
-              handleAlert();
-            }
-          }}
           onClick={handleSubmit}
         >
           Compare Answer
