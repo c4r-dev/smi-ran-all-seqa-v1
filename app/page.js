@@ -96,6 +96,25 @@ const countOccurrences = (sequence) => {
   );
 };
 
+const calculateEffect = (counts) => {
+  const total = counts.A + counts.B;
+  const expected = total / 2;
+  const effect = Math.abs((counts.A - expected) / expected).toFixed(2);
+  return effect;
+};
+
+const calculatePValue = (counts) => {
+  // Simple chi-square test for equal proportions
+  const total = counts.A + counts.B;
+  const expected = total / 2;
+  const chiSquare = Math.pow(counts.A - expected, 2) / expected + Math.pow(counts.B - expected, 2) / expected;
+  
+  // Simple approximation of p-value from chi-square with df=1
+  // This is a simplified calculation for demonstration purposes
+  const pValue = Math.exp(-0.5 * chiSquare);
+  return pValue.toFixed(3);
+};
+
 const makeCountPlot = (sequence) => {
   const counts = countOccurrences(sequence);
 
@@ -134,11 +153,30 @@ export default function Page() {
       s3: generateRandom(),
     };
 
+    const s1Counts = countOccurrences(newSequences.s1);
+    const s2Counts = countOccurrences(newSequences.s2);
+    const s3Counts = countOccurrences(newSequences.s3);
+
     const newEntry = {
       generation: generationCount + 1,
-      systematic: { ...countOccurrences(newSequences.s1), longestRun: getLongestRun(newSequences.s1) },
-      manual: { ...countOccurrences(newSequences.s2), longestRun: getLongestRun(newSequences.s2) },
-      random: { ...countOccurrences(newSequences.s3), longestRun: getLongestRun(newSequences.s3) },
+      systematic: { 
+        ...s1Counts, 
+        longestRun: getLongestRun(newSequences.s1),
+        effect: calculateEffect(s1Counts),
+        pValue: calculatePValue(s1Counts)
+      },
+      manual: { 
+        ...s2Counts, 
+        longestRun: getLongestRun(newSequences.s2),
+        effect: calculateEffect(s2Counts),
+        pValue: calculatePValue(s2Counts)
+      },
+      random: { 
+        ...s3Counts, 
+        longestRun: getLongestRun(newSequences.s3),
+        effect: calculateEffect(s3Counts),
+        pValue: calculatePValue(s3Counts)
+      },
     };
 
     setSequences(newSequences);
@@ -224,21 +262,27 @@ export default function Page() {
           <thead>
             <tr style={{ backgroundColor: "#f2f2f2", textAlign: "center" }}>
               <th>Generation</th>
-              <th colSpan="3">Sequence 1</th>
-              <th colSpan="3">Sequence 2</th>
-              <th colSpan="3">Sequence 3</th>
+              <th colSpan="5">Sequence 1</th>
+              <th colSpan="5">Sequence 2</th>
+              <th colSpan="5">Sequence 3</th>
             </tr>
             <tr style={{ backgroundColor: "#e6e6e6", textAlign: "center" }}>
               <th></th>
               <th>A</th>
               <th>B</th>
               <th>Run</th>
+              <th>Effect</th>
+              <th>p-value</th>
               <th>A</th>
               <th>B</th>
               <th>Run</th>
+              <th>Effect</th>
+              <th>p-value</th>
               <th>A</th>
               <th>B</th>
               <th>Run</th>
+              <th>Effect</th>
+              <th>p-value</th>
             </tr>
           </thead>
           <tbody>
@@ -250,12 +294,18 @@ export default function Page() {
                 <td style={{ textAlign: "center" }}>{entry.systematic.A}</td>
                 <td style={{ textAlign: "center" }}>{entry.systematic.B}</td>
                 <td style={{ textAlign: "center" }}>{entry.systematic.longestRun}</td>
+                <td style={{ textAlign: "center" }}>{entry.systematic.effect}</td>
+                <td style={{ textAlign: "center" }}>{entry.systematic.pValue}</td>
                 <td style={{ textAlign: "center" }}>{entry.manual.A}</td>
                 <td style={{ textAlign: "center" }}>{entry.manual.B}</td>
                 <td style={{ textAlign: "center" }}>{entry.manual.longestRun}</td>
+                <td style={{ textAlign: "center" }}>{entry.manual.effect}</td>
+                <td style={{ textAlign: "center" }}>{entry.manual.pValue}</td>
                 <td style={{ textAlign: "center" }}>{entry.random.A}</td>
                 <td style={{ textAlign: "center" }}>{entry.random.B}</td>
                 <td style={{ textAlign: "center" }}>{entry.random.longestRun}</td>
+                <td style={{ textAlign: "center" }}>{entry.random.effect}</td>
+                <td style={{ textAlign: "center" }}>{entry.random.pValue}</td>
               </tr>
             ))}
           </tbody>
