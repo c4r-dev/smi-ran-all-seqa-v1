@@ -96,23 +96,25 @@ const countOccurrences = (sequence) => {
   );
 };
 
-const calculateEffect = (counts) => {
-  const total = counts.A + counts.B;
-  const expected = total / 2;
-  const effect = Math.abs((counts.A - expected) / expected).toFixed(2);
-  return effect;
+const calculateEffect = (set) => {
+  const trueEffectSize = 0.2;
+  if (set === "s1") {
+    return (trueEffectSize + Math.random() * 0.5 + 0.3).toFixed(2); // Very inflated
+  } else if (set === "s2") {
+    return (trueEffectSize + Math.random() * 0.2 + 0.1).toFixed(2); // Moderately inflated
+  } else {
+    return (trueEffectSize + (Math.random() * 0.2 - 0.1)).toFixed(2); // Closer to true effect
+  }
 };
 
-const calculatePValue = (counts) => {
-  // Simple chi-square test for equal proportions
-  const total = counts.A + counts.B;
-  const expected = total / 2;
-  const chiSquare = Math.pow(counts.A - expected, 2) / expected + Math.pow(counts.B - expected, 2) / expected;
-  
-  // Simple approximation of p-value from chi-square with df=1
-  // This is a simplified calculation for demonstration purposes
-  const pValue = Math.exp(-0.5 * chiSquare);
-  return pValue.toFixed(3);
+const calculatePValue = (set) => {
+  if (set === "s1") {
+    return (Math.random() * 0.03).toFixed(3); // Always "significant"
+  } else if (set === "s2") {
+    return (Math.random() * 0.08).toFixed(3); // Often "significant"
+  } else {
+    return (Math.random() * 0.25 + 0.05).toFixed(3); // More variable
+  }
 };
 
 const makeCountPlot = (sequence) => {
@@ -159,23 +161,23 @@ export default function Page() {
 
     const newEntry = {
       generation: generationCount + 1,
-      systematic: { 
-        ...s1Counts, 
+      systematic: {
+        ...s1Counts,
         longestRun: getLongestRun(newSequences.s1),
-        effect: calculateEffect(s1Counts),
-        pValue: calculatePValue(s1Counts)
+        effect: calculateEffect('s1'),
+        pValue: calculatePValue('s1')
       },
-      manual: { 
-        ...s2Counts, 
+      manual: {
+        ...s2Counts,
         longestRun: getLongestRun(newSequences.s2),
-        effect: calculateEffect(s2Counts),
-        pValue: calculatePValue(s2Counts)
+        effect: calculateEffect('s2'),
+        pValue: calculatePValue('s2')
       },
-      random: { 
-        ...s3Counts, 
+      random: {
+        ...s3Counts,
         longestRun: getLongestRun(newSequences.s3),
-        effect: calculateEffect(s3Counts),
-        pValue: calculatePValue(s3Counts)
+        effect: calculateEffect('s3'),
+        pValue: calculatePValue('s3')
       },
     };
 
