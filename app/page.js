@@ -68,69 +68,69 @@ const getLongestRun = (sequence) => {
 const calculateEffectSize = (set) => {
   const trueEffectSize = 0.2;
   const randomFactor = set === "systematic" ? Math.random() * 0.5 + 0.3 :
-                       set === "manual" ? Math.random() * 0.2 + 0.1 :
-                       Math.random() * 0.2 - 0.1;
+    set === "manual" ? Math.random() * 0.2 + 0.1 :
+      Math.random() * 0.2 - 0.1;
   return parseFloat((trueEffectSize + randomFactor).toFixed(2));
 };
 
 const calculatePValue = (set) => {
   const randomFactor = set === "systematic" ? Math.random() * 0.03 :
-                       set === "manual" ? Math.random() * 0.08 :
-                       Math.random() * 0.25 + 0.05;
+    set === "manual" ? Math.random() * 0.08 :
+      Math.random() * 0.25 + 0.05;
   return parseFloat(randomFactor.toFixed(3));
 };
 
 // --- BarChartVisualizer Component remains the same ---
 const BarChartVisualizer = ({ sequence, title }) => {
-    // (Code for BarChartVisualizer is unchanged from the previous version)
-    if (!sequence) return null;
-    const countA = sequence.filter(item => item === 'A').length;
-    const countB = sequence.filter(item => item === 'B').length;
-    const total = sequence.length;
-    const percentA = total > 0 ? (countA / total * 100).toFixed(1) : 0;
-    const percentB = total > 0 ? (countB / total * 100).toFixed(1) : 0;
-    const barWidth = 60;
-    const maxBarHeight = 200;
-    const barHeightA = total > 0 ? Math.max((countA / total) * maxBarHeight, 30) : 30;
-    const barHeightB = total > 0 ? Math.max((countB / total) * maxBarHeight, 30) : 30;
-    const sequencePreview = sequence.slice(0, 49);
+  // (Code for BarChartVisualizer is unchanged from the previous version)
+  if (!sequence) return null;
+  const countA = sequence.filter(item => item === 'A').length;
+  const countB = sequence.filter(item => item === 'B').length;
+  const total = sequence.length;
+  const percentA = total > 0 ? (countA / total * 100).toFixed(1) : 0;
+  const percentB = total > 0 ? (countB / total * 100).toFixed(1) : 0;
+  const barWidth = 60;
+  const maxBarHeight = 200;
+  const barHeightA = total > 0 ? Math.max((countA / total) * maxBarHeight, 30) : 30;
+  const barHeightB = total > 0 ? Math.max((countB / total) * maxBarHeight, 30) : 30;
+  const sequencePreview = sequence.slice(0, 49);
 
-    return (
-      <div style={{ backgroundColor: '#f9f9f9', padding: '20px', borderRadius: '8px', boxShadow: 'inset 0px 0px 5px rgba(0, 0, 0, 0.1)', height: '100%', display: 'flex', flexDirection: 'column' }}>
-        <h4 style={{ textAlign: 'center', marginBottom: '10px' }}>{title}</h4>
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '5px', padding: '8px', backgroundColor: 'white', borderRadius: '4px', boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)', minHeight: '100px' }}>
-          {sequencePreview.map((item, index) => (
-            <div key={`preview-${title}-${index}`} style={{ width: '32px', height: '32px', margin: '2px', backgroundColor: item === 'A' ? '#39E1F8' : '#FFA800', borderRadius: '4px', display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'white', fontWeight: 'bold', fontSize: '16px', textShadow: '1px 1px 1px rgba(0,0,0,0.3)' }} title={`Item ${index + 1}: ${item}`}>
-              {item}
+  return (
+    <div style={{ backgroundColor: '#f9f9f9', padding: '20px', borderRadius: '8px', boxShadow: 'inset 0px 0px 5px rgba(0, 0, 0, 0.1)', height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <h4 style={{ textAlign: 'center', marginBottom: '10px' }}>{title}</h4>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '5px', padding: '8px', backgroundColor: 'white', borderRadius: '4px', boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)', minHeight: '100px' }}>
+        {sequencePreview.map((item, index) => (
+          <div key={`preview-${title}-${index}`} style={{ width: '32px', height: '32px', margin: '2px', backgroundColor: item === 'A' ? '#39E1F8' : '#FFA800', borderRadius: '4px', display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'white', fontWeight: 'bold', fontSize: '16px', textShadow: '1px 1px 1px rgba(0,0,0,0.3)' }} title={`Item ${index + 1}: ${item}`}>
+            {item}
+          </div>
+        ))}
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexGrow: 1, backgroundColor: 'white', borderRadius: '4px', padding: '10px', marginTop: '10px', boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-end', height: `${Math.max(barHeightA, barHeightB) + 10}px`, justifyContent: 'center', width: '100%', marginTop: '5px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginRight: '30px' }}>
+              <div style={{ width: `${barWidth + 15}px`, height: `${barHeightA}px`, backgroundColor: '#39E1F8', borderRadius: '6px 6px 0 0', display: 'flex', justifyContent: 'center', alignItems: 'center', transition: 'height 0.5s ease' }}>
+                <span style={{ color: 'white', fontWeight: 'bold', textShadow: '1px 1px 2px rgba(0,0,0,0.2)', fontSize: '14px' }}>{countA}</span>
+              </div>
             </div>
-          ))}
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexGrow: 1, backgroundColor: 'white', borderRadius: '4px', padding: '10px', marginTop: '10px', boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-              <div style={{ display: 'flex', alignItems: 'flex-end', height: `${Math.max(barHeightA, barHeightB) + 10}px`, justifyContent: 'center', width: '100%', marginTop: '5px' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginRight: '30px' }}>
-                  <div style={{ width: `${barWidth + 15}px`, height: `${barHeightA}px`, backgroundColor: '#39E1F8', borderRadius: '6px 6px 0 0', display: 'flex', justifyContent: 'center', alignItems: 'center', transition: 'height 0.5s ease' }}>
-                    <span style={{ color: 'white', fontWeight: 'bold', textShadow: '1px 1px 2px rgba(0,0,0,0.2)', fontSize: '14px' }}>{countA}</span>
-                  </div>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <div style={{ width: `${barWidth + 15}px`, height: `${barHeightB}px`, backgroundColor: '#FFA800', borderRadius: '6px 6px 0 0', display: 'flex', justifyContent: 'center', alignItems: 'center', transition: 'height 0.5s ease' }}>
-                    <span style={{ color: 'white', fontWeight: 'bold', textShadow: '1px 1px 2px rgba(0,0,0,0.2)', fontSize: '14px' }}>{countB}</span>
-                  </div>
-                </div>
-              </div>
-              <div style={{ display: 'flex', width: '100%', justifyContent: 'center', marginTop: '5px' }}>
-                <div style={{ fontWeight: 'bold', fontSize: '16px', width: `${barWidth + 15}px`, textAlign: 'center', marginRight: '30px' }}>A</div>
-                <div style={{ fontWeight: 'bold', fontSize: '16px', width: `${barWidth + 15}px`, textAlign: 'center' }}>B</div>
-              </div>
-              <div style={{ display: 'flex', width: '100%', justifyContent: 'center', marginTop: '5px' }}>
-                <div style={{ fontSize: '14px', width: `${barWidth + 15}px`, textAlign: 'center', marginRight: '30px' }}>{percentA}%</div>
-                <div style={{ fontSize: '14px', width: `${barWidth + 15}px`, textAlign: 'center' }}>{percentB}%</div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{ width: `${barWidth + 15}px`, height: `${barHeightB}px`, backgroundColor: '#FFA800', borderRadius: '6px 6px 0 0', display: 'flex', justifyContent: 'center', alignItems: 'center', transition: 'height 0.5s ease' }}>
+                <span style={{ color: 'white', fontWeight: 'bold', textShadow: '1px 1px 2px rgba(0,0,0,0.2)', fontSize: '14px' }}>{countB}</span>
               </div>
             </div>
           </div>
+          <div style={{ display: 'flex', width: '100%', justifyContent: 'center', marginTop: '5px' }}>
+            <div style={{ fontWeight: 'bold', fontSize: '16px', width: `${barWidth + 15}px`, textAlign: 'center', marginRight: '30px' }}>A</div>
+            <div style={{ fontWeight: 'bold', fontSize: '16px', width: `${barWidth + 15}px`, textAlign: 'center' }}>B</div>
+          </div>
+          <div style={{ display: 'flex', width: '100%', justifyContent: 'center', marginTop: '5px' }}>
+            <div style={{ fontSize: '14px', width: `${barWidth + 15}px`, textAlign: 'center', marginRight: '30px' }}>{percentA}%</div>
+            <div style={{ fontSize: '14px', width: `${barWidth + 15}px`, textAlign: 'center' }}>{percentB}%</div>
+          </div>
         </div>
-      );
+      </div>
+    </div>
+  );
 };
 
 // --- Main Page Component ---
@@ -159,26 +159,26 @@ export default function Page() {
     };
 
     const systematicStats = {
-        A: newSystematic.filter(item => item === 'A').length,
-        B: newSystematic.filter(item => item === 'B').length,
-        longestRun: getLongestRun(newSystematic),
-        effect: calculateEffectSize('systematic'),
-        pValue: calculatePValue('systematic')
-      };
-     const manualStats = {
-        A: newManual.filter(item => item === 'A').length,
-        B: newManual.filter(item => item === 'B').length,
-        longestRun: getLongestRun(newManual),
-        effect: calculateEffectSize('manual'),
-        pValue: calculatePValue('manual')
-      };
-     const randomStats = {
-        A: newRandom.filter(item => item === 'A').length,
-        B: newRandom.filter(item => item === 'B').length,
-        longestRun: getLongestRun(newRandom),
-        effect: calculateEffectSize('random'),
-        pValue: calculatePValue('random')
-      };
+      A: newSystematic.filter(item => item === 'A').length,
+      B: newSystematic.filter(item => item === 'B').length,
+      longestRun: getLongestRun(newSystematic),
+      effect: calculateEffectSize('systematic'),
+      pValue: calculatePValue('systematic')
+    };
+    const manualStats = {
+      A: newManual.filter(item => item === 'A').length,
+      B: newManual.filter(item => item === 'B').length,
+      longestRun: getLongestRun(newManual),
+      effect: calculateEffectSize('manual'),
+      pValue: calculatePValue('manual')
+    };
+    const randomStats = {
+      A: newRandom.filter(item => item === 'A').length,
+      B: newRandom.filter(item => item === 'B').length,
+      longestRun: getLongestRun(newRandom),
+      effect: calculateEffectSize('random'),
+      pValue: calculatePValue('random')
+    };
 
     const currentGeneration = generationCount + 1;
 
@@ -252,166 +252,166 @@ export default function Page() {
   }
 
   const getConditionalColor = (statType, value) => {
-      switch (statType) {
-          case 'effect':
-              const effectValue = typeof value === 'number' ? value : parseFloat(value);
-              return effectValue > 0.15 ? "#228B22" : effectValue === 0 ? "#DC143C" : "inherit";
-          case 'pValue':
-              const pValueNum = typeof value === 'number' ? value : parseFloat(value);
-              return pValueNum < 0.05 ? "#228B22" : pValueNum > 0.5 ? "#DC143C" : "inherit";
-          case 'run':
-              const runValue = typeof value === 'number' ? value : parseInt(value, 10);
-              return runValue > 5 ? "#DC143C" : runValue < 3 ? "#228B22" : "inherit";
-          default:
-              return "inherit";
-      }
+    switch (statType) {
+      case 'effect':
+        const effectValue = typeof value === 'number' ? value : parseFloat(value);
+        return effectValue > 0.15 ? "#228B22" : effectValue === 0 ? "#DC143C" : "inherit";
+      case 'pValue':
+        const pValueNum = typeof value === 'number' ? value : parseFloat(value);
+        return pValueNum < 0.05 ? "#228B22" : pValueNum > 0.5 ? "#DC143C" : "inherit";
+      case 'run':
+        const runValue = typeof value === 'number' ? value : parseInt(value, 10);
+        return runValue > 5 ? "#DC143C" : runValue < 3 ? "#228B22" : "inherit";
+      default:
+        return "inherit";
+    }
   };
 
   // --- JSX rendering (unchanged from previous version below this point) ---
   return (
     <div>
       <h2 className="responsive-text">
-         These three allocation sequences claimed to use randomization. Only one of these studies was truly randomized. Which one do you think it is?
-         <br /> (Sample size n=30) <br/>
+        These three allocation sequences claimed to use randomization. Only one of these studies was truly randomized. Which one do you think it is?
+        <br /> (Sample size n=30) <br />
         "Generate new sequences" to observe patterns.
       </h2>
 
       <div style={{
-           maxWidth: "1200px",
-           margin: "30px auto",
-           display: "flex",
-           flexWrap: "wrap",
-           justifyContent: "center",
-           gap: "20px"
-       }}>
-           <div style={{
-             width: "320px",
-             backgroundColor: "white",
-             borderRadius: "8px",
-             boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.05)",
-             overflow: "hidden",
-             display: "flex"
-           }}>
-             <BarChartVisualizer
-               sequence={sequences.systematic}
-               title="Sequence 1 (Systematic)"
-             />
-           </div>
-           <div style={{
-             width: "320px",
-             backgroundColor: "white",
-             borderRadius: "8px",
-             boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.05)",
-             overflow: "hidden",
-              display: "flex"
-           }}>
-             <BarChartVisualizer
-               sequence={sequences.manual}
-               title="Sequence 2 (Manual)"
-             />
-           </div>
-           <div style={{
-             width: "320px",
-             backgroundColor: "white",
-             borderRadius: "8px",
-             boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.05)",
-             overflow: "hidden",
-              display: "flex"
-           }}>
-             <BarChartVisualizer
-               sequence={sequences.random}
-               title="Sequence 3 (Random)"
-             />
-           </div>
-       </div>
+        maxWidth: "1200px",
+        margin: "30px auto",
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        gap: "20px"
+      }}>
+        <div style={{
+          width: "320px",
+          backgroundColor: "white",
+          borderRadius: "8px",
+          boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.05)",
+          overflow: "hidden",
+          display: "flex"
+        }}>
+          <BarChartVisualizer
+            sequence={sequences.systematic}
+            title="Sequence 1 (Systematic)"
+          />
+        </div>
+        <div style={{
+          width: "320px",
+          backgroundColor: "white",
+          borderRadius: "8px",
+          boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.05)",
+          overflow: "hidden",
+          display: "flex"
+        }}>
+          <BarChartVisualizer
+            sequence={sequences.manual}
+            title="Sequence 2 (Manual)"
+          />
+        </div>
+        <div style={{
+          width: "320px",
+          backgroundColor: "white",
+          borderRadius: "8px",
+          boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.05)",
+          overflow: "hidden",
+          display: "flex"
+        }}>
+          <BarChartVisualizer
+            sequence={sequences.random}
+            title="Sequence 3 (Random)"
+          />
+        </div>
+      </div>
 
-       <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
-            <button className="regenerate-button" onClick={generateNewSequences}>
-                Regenerate<br />sequences
-            </button>
-       </div>
+      <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
+        <button className="regenerate-button" onClick={generateNewSequences}>
+          Regenerate<br />sequences
+        </button>
+      </div>
 
       <div style={{
-          maxWidth: "1200px",
-          margin: "30px auto",
-          boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.1)",
-          borderRadius: "8px",
-          backgroundColor: "white"
+        maxWidth: "1200px",
+        margin: "30px auto",
+        boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.1)",
+        borderRadius: "8px",
+        backgroundColor: "white"
       }}>
-          <h3 style={{
-              textAlign: "center",
-              marginBottom: "15px",
-              padding: "15px 15px 0 15px"
-          }}>Generation History (Last 5)</h3>
+        <h3 style={{
+          textAlign: "center",
+          marginBottom: "15px",
+          padding: "15px 15px 0 15px"
+        }}>Generation History (Last 5)</h3>
 
-          <div style={{
-              overflowY: "auto",
-              maxHeight: "400px",
-              width: "100%",
-              padding: "0 0 15px 0"
+        <div style={{
+          overflowY: "auto",
+          maxHeight: "400px",
+          width: "100%",
+          padding: "0 0 15px 0"
+        }}>
+          <table style={{
+            minWidth: "900px",
+            width: "100%",
+            borderCollapse: "collapse",
+            textAlign: "center"
           }}>
-              <table style={{
-                  minWidth: "900px",
-                  width: "100%",
-                  borderCollapse: "collapse",
-                  textAlign: "center"
-              }}>
-                  <thead style={{
-                      position: "sticky",
-                      top: "0",
-                      zIndex: "1"
+            <thead style={{
+              position: "sticky",
+              top: "0",
+              zIndex: "1"
+            }}>
+              <tr style={{ backgroundColor: "#00C802", color: "black" }}>
+                <th style={{ padding: "12px 15px" }}>Gen</th>
+                <th colSpan="4" style={{ padding: "12px 15px", borderLeft: "2px solid white" }}>Sequence 1 (Systematic)</th>
+                <th colSpan="4" style={{ padding: "12px 15px", borderLeft: "2px solid white" }}>Sequence 2 (Manual)</th>
+                <th colSpan="4" style={{ padding: "12px 15px", borderLeft: "2px solid white" }}>Sequence 3 (Random)</th>
+              </tr>
+              <tr style={{ backgroundColor: "#00C80266", color: "black" }}>
+                <th style={{ padding: "8px 10px" }}></th>
+                <th style={{ padding: "8px 10px", borderLeft: "2px solid white" }}>A/B</th>
+                <th style={{ padding: "8px 10px" }}>Effect</th>
+                <th style={{ padding: "8px 10px" }}>p-value</th>
+                <th style={{ padding: "8px 10px" }}>Run</th>
+                <th style={{ padding: "8px 10px", borderLeft: "2px solid white" }}>A/B</th>
+                <th style={{ padding: "8px 10px" }}>Effect</th>
+                <th style={{ padding: "8px 10px" }}>p-value</th>
+                <th style={{ padding: "8px 10px" }}>Run</th>
+                <th style={{ padding: "8px 10px", borderLeft: "2px solid white" }}>A/B</th>
+                <th style={{ padding: "8px 10px" }}>Effect</th>
+                <th style={{ padding: "8px 10px" }}>p-value</th>
+                <th style={{ padding: "8px 10px" }}>Run</th>
+              </tr>
+            </thead>
+            <tbody>
+              {history.map((entry) => (
+                <tr key={entry.id} // Using unique ID for key
+                  style={{
+                    backgroundColor: entry.generation % 2 === 0 ? "#f9f9f9" : "white",
+                    transition: "background-color 0.2s ease"
                   }}>
-                      <tr style={{ backgroundColor: "#00C802", color: "black" }}>
-                          <th style={{ padding: "12px 15px" }}>Gen</th>
-                          <th colSpan="4" style={{ padding: "12px 15px", borderLeft: "2px solid white" }}>Sequence 1 (Systematic)</th>
-                          <th colSpan="4" style={{ padding: "12px 15px", borderLeft: "2px solid white" }}>Sequence 2 (Manual)</th>
-                          <th colSpan="4" style={{ padding: "12px 15px", borderLeft: "2px solid white" }}>Sequence 3 (Random)</th>
-                      </tr>
-                      <tr style={{ backgroundColor: "#00C80266", color: "black" }}>
-                          <th style={{ padding: "8px 10px" }}></th>
-                          <th style={{ padding: "8px 10px", borderLeft: "2px solid white" }}>A/B</th>
-                          <th style={{ padding: "8px 10px" }}>Effect</th>
-                          <th style={{ padding: "8px 10px" }}>p-value</th>
-                          <th style={{ padding: "8px 10px" }}>Run</th>
-                          <th style={{ padding: "8px 10px", borderLeft: "2px solid white" }}>A/B</th>
-                          <th style={{ padding: "8px 10px" }}>Effect</th>
-                          <th style={{ padding: "8px 10px" }}>p-value</th>
-                          <th style={{ padding: "8px 10px" }}>Run</th>
-                          <th style={{ padding: "8px 10px", borderLeft: "2px solid white" }}>A/B</th>
-                          <th style={{ padding: "8px 10px" }}>Effect</th>
-                          <th style={{ padding: "8px 10px" }}>p-value</th>
-                          <th style={{ padding: "8px 10px" }}>Run</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      {history.map((entry) => (
-                          <tr key={entry.id} // Using unique ID for key
-                              style={{
-                                  backgroundColor: entry.generation % 2 === 0 ? "#f9f9f9" : "white",
-                                  transition: "background-color 0.2s ease"
-                              }}>
-                              <td style={{
-                                  padding: "12px",
-                                  fontWeight: "bold",
-                                  backgroundColor: "#f0f0f0"
-                              }}>{entry.generation}</td>
-                              <td style={{ padding: "10px", borderLeft: "2px solid #eee" }}>{entry.systematic.A}/{entry.systematic.B}</td>
-                              <td style={{ padding: "10px", color: getConditionalColor('effect', entry.systematic.effect) }}>{entry.systematic.effect.toFixed(2)}</td>
-                              <td style={{ padding: "10px", color: getConditionalColor('pValue', entry.systematic.pValue) }}>{entry.systematic.pValue.toFixed(3)}</td>
-                              <td style={{ padding: "10px", color: getConditionalColor('run', entry.systematic.longestRun) }}>{entry.systematic.longestRun}</td>
-                              <td style={{ padding: "10px", borderLeft: "2px solid #eee" }}>{entry.manual.A}/{entry.manual.B}</td>
-                              <td style={{ padding: "10px", color: getConditionalColor('effect', entry.manual.effect) }}>{entry.manual.effect.toFixed(2)}</td>
-                              <td style={{ padding: "10px", color: getConditionalColor('pValue', entry.manual.pValue) }}>{entry.manual.pValue.toFixed(3)}</td>
-                              <td style={{ padding: "10px", color: getConditionalColor('run', entry.manual.longestRun) }}>{entry.manual.longestRun}</td>
-                              <td style={{ padding: "10px", borderLeft: "2px solid #eee" }}>{entry.random.A}/{entry.random.B}</td>
-                              <td style={{ padding: "10px", color: getConditionalColor('effect', entry.random.effect) }}>{entry.random.effect.toFixed(2)}</td>
-                              <td style={{ padding: "10px", color: getConditionalColor('pValue', entry.random.pValue) }}>{entry.random.pValue.toFixed(3)}</td>
-                              <td style={{ padding: "10px", color: getConditionalColor('run', entry.random.longestRun) }}>{entry.random.longestRun}</td>
-                          </tr>
-                      ))}
-                  </tbody>
-              </table>
-          </div>
+                  <td style={{
+                    padding: "12px",
+                    fontWeight: "bold",
+                    backgroundColor: "#f0f0f0"
+                  }}>{entry.generation}</td>
+                  <td style={{ padding: "10px", borderLeft: "2px solid #eee" }}>{entry.systematic.A}/{entry.systematic.B}</td>
+                  <td style={{ padding: "10px", color: getConditionalColor('effect', entry.systematic.effect) }}>{entry.systematic.effect.toFixed(2)}</td>
+                  <td style={{ padding: "10px", color: getConditionalColor('pValue', entry.systematic.pValue) }}>{entry.systematic.pValue.toFixed(3)}</td>
+                  <td style={{ padding: "10px", color: getConditionalColor('run', entry.systematic.longestRun) }}>{entry.systematic.longestRun}</td>
+                  <td style={{ padding: "10px", borderLeft: "2px solid #eee" }}>{entry.manual.A}/{entry.manual.B}</td>
+                  <td style={{ padding: "10px", color: getConditionalColor('effect', entry.manual.effect) }}>{entry.manual.effect.toFixed(2)}</td>
+                  <td style={{ padding: "10px", color: getConditionalColor('pValue', entry.manual.pValue) }}>{entry.manual.pValue.toFixed(3)}</td>
+                  <td style={{ padding: "10px", color: getConditionalColor('run', entry.manual.longestRun) }}>{entry.manual.longestRun}</td>
+                  <td style={{ padding: "10px", borderLeft: "2px solid #eee" }}>{entry.random.A}/{entry.random.B}</td>
+                  <td style={{ padding: "10px", color: getConditionalColor('effect', entry.random.effect) }}>{entry.random.effect.toFixed(2)}</td>
+                  <td style={{ padding: "10px", color: getConditionalColor('pValue', entry.random.pValue) }}>{entry.random.pValue.toFixed(3)}</td>
+                  <td style={{ padding: "10px", color: getConditionalColor('run', entry.random.longestRun) }}>{entry.random.longestRun}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div className="radio-container" style={{ maxWidth: '800px', margin: '30px auto' }}>
@@ -454,19 +454,19 @@ export default function Page() {
         ></textarea>
       </div>
 
-       <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
-            <button
-                className="compare-answer-button"
-                style={{
-                    opacity: selectedOption && textInput ? "1" : "0.4",
-                    cursor: selectedOption && textInput ? "pointer" : "not-allowed",
-                 }}
-                onClick={handleSubmit}
-                disabled={!selectedOption || !textInput}
-            >
-                Compare Answer
-            </button>
-        </div>
+      <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
+        <button
+          className="compare-answer-button"
+          style={{
+            opacity: selectedOption && textInput ? "1" : "0.4",
+            cursor: selectedOption && textInput ? "pointer" : "not-allowed",
+          }}
+          onClick={handleSubmit}
+          disabled={!selectedOption || !textInput}
+        >
+          Compare Answer
+        </button>
+      </div>
     </div>
   );
 }
