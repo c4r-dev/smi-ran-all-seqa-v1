@@ -294,7 +294,7 @@ export default function Page() {
         }}>
           <BarChartVisualizer
             sequence={sequences.systematic}
-            title="Sequence 1 (Systematic)"
+            title="Sequence 1"
           />
         </div>
         <div style={{
@@ -307,7 +307,7 @@ export default function Page() {
         }}>
           <BarChartVisualizer
             sequence={sequences.manual}
-            title="Sequence 2 (Manual)"
+            title="Sequence 2"
           />
         </div>
         <div style={{
@@ -320,7 +320,7 @@ export default function Page() {
         }}>
           <BarChartVisualizer
             sequence={sequences.random}
-            title="Sequence 3 (Random)"
+            title="Sequence 3"
           />
         </div>
       </div>
