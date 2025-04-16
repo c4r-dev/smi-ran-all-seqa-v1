@@ -3,6 +3,7 @@
 // Import useRef along with other hooks
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import CustomButton from "./components/CustomButton";
 
 // --- Functions (generateSystematic, generateManual, etc.) remain the same ---
 const generateSystematic = (n = 30) => {
@@ -105,7 +106,7 @@ const BarChartVisualizer = ({ sequence, title }) => {
           </div>
         ))}
       </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexGrow: 1, backgroundColor: 'white', borderRadius: '4px', padding: '10px', marginTop: '10px', boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexGrow: 1, backgroundColor: 'white', borderRadius: '4px', padding: '10px', marginTop: '10px', boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)', marginBottom: '40px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
           <div style={{ display: 'flex', alignItems: 'flex-end', height: `${Math.max(barHeightA, barHeightB) + 10}px`, justifyContent: 'center', width: '100%', marginTop: '5px' }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginRight: '30px' }}>
@@ -326,9 +327,16 @@ export default function Page() {
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
-        <button className="regenerate-button" onClick={generateNewSequences}>
-          Regenerate<br />sequences
-        </button>
+         {/* <button className="regenerate-button" onClick={generateNewSequences}>
+          Regenerate<br />New sequences
+        </button>   */}
+          <CustomButton
+                variant="primary"
+                onClick={generateNewSequences}
+              //  disabled={remainingFish.length === 0}
+              >
+          Regenerate<br />New sequences
+          </CustomButton> 
       </div>
 
       <div style={{
@@ -363,11 +371,11 @@ export default function Page() {
             }}>
               <tr style={{ backgroundColor: "#00C802", color: "black" }}>
                 <th style={{ padding: "12px 15px" }}>Gen</th>
-                <th colSpan="4" style={{ padding: "12px 15px", borderLeft: "2px solid white" }}>Sequence 1 (Systematic)</th>
-                <th colSpan="4" style={{ padding: "12px 15px", borderLeft: "2px solid white" }}>Sequence 2 (Manual)</th>
-                <th colSpan="4" style={{ padding: "12px 15px", borderLeft: "2px solid white" }}>Sequence 3 (Random)</th>
+                <th colSpan="4" style={{ padding: "12px 15px", borderLeft: "2px solid white" }}>Sequence 1 </th>
+                <th colSpan="4" style={{ padding: "12px 15px", borderLeft: "2px solid white" }}>Sequence 2 </th>
+                <th colSpan="4" style={{ padding: "12px 15px", borderLeft: "2px solid white" }}>Sequence 3 </th>
               </tr>
-              <tr style={{ backgroundColor: "#00C80266", color: "black" }}>
+              <tr style={{ backgroundColor: "rgba(0, 200, 2, 0.6)", color: "black" }}>
                 <th style={{ padding: "8px 10px" }}></th>
                 <th style={{ padding: "8px 10px", borderLeft: "2px solid white" }}>A/B</th>
                 <th style={{ padding: "8px 10px" }}>Effect</th>
