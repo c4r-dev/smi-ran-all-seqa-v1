@@ -141,6 +141,9 @@ export default function Page() {
   const [generationCount, setGenerationCount] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
   const [textInput, setTextInput] = useState("");
+  
+  // Reference to the table container for scrolling
+  const tableContainerRef = useRef(null);
 
   const router = useRouter();
 
@@ -192,8 +195,15 @@ export default function Page() {
     };
 
     setSequences(newSequencesData);
-    setHistory((prev) => [newEntry, ...prev].slice(0, 5));
+    
+    // Modify the history update to store more entries (up to 10 instead of just 5)
+    setHistory((prev) => [newEntry, ...prev].slice(0, 10));
     setGenerationCount(currentGeneration);
+    
+    // Scroll to the top of the table when generating new sequences
+    if (tableContainerRef.current) {
+      tableContainerRef.current.scrollTop = 0;
+    }
   };
 
   // === Updated useEffect hook ===
@@ -203,6 +213,15 @@ export default function Page() {
       generateNewSequences();
       // Mark that the initial effect has now run
       hasRunInitialEffect.current = true;
+    }
+    
+    // Generate a few more initial sequences to populate the history
+    if (history.length <= 2) {
+      for (let i = 0; i < 4; i++) {
+        setTimeout(() => {
+          generateNewSequences();
+        }, i * 100);
+      }
     }
   }, []); // Empty dependency array ensures this effect logic runs only on mount
   // ============================
@@ -268,7 +287,7 @@ export default function Page() {
     }
   };
 
-  // --- JSX rendering (unchanged from previous version below this point) ---
+  // --- JSX rendering with enhanced table scrolling ---
   return (
     <div>
       <h2 className="responsive-text">
@@ -327,13 +346,9 @@ export default function Page() {
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
-         {/* <button className="regenerate-button" onClick={generateNewSequences}>
-          Regenerate<br />New sequences
-        </button>   */}
           <CustomButton
                 variant="primary"
                 onClick={generateNewSequences}
-              //  disabled={remainingFish.length === 0}
               >
           Regenerate<br />New sequences
           </CustomButton> 
@@ -348,16 +363,28 @@ export default function Page() {
       }}>
         <h3 style={{
           textAlign: "center",
-          marginBottom: "15px",
-          padding: "15px 15px 0 15px"
-        }}>Generation History (Last 5)</h3>
+          margin: "0",
+          padding: "15px 15px",
+          position: "sticky",
+          top: "0",
+          backgroundColor: "white",
+          zIndex: "10",
+          borderBottom: "1px solid #eee"
+        }}>Generation History</h3>
 
-        <div style={{
-          overflowY: "auto",
-          maxHeight: "400px",
-          width: "100%",
-          padding: "0 0 15px 0"
-        }}>
+        {/* Enhanced table container with improved scrolling */}
+        <div 
+          ref={tableContainerRef}
+          style={{
+            overflowY: "auto",
+            maxHeight: "400px",
+            width: "100%",
+            scrollbarWidth: "thin",
+            scrollbarColor: "#00C802 #f0f0f0",
+            padding: "0 0 15px 0",
+            position: "relative"
+          }}
+        >
           <table style={{
             minWidth: "900px",
             width: "100%",
@@ -367,7 +394,8 @@ export default function Page() {
             <thead style={{
               position: "sticky",
               top: "0",
-              zIndex: "1"
+              zIndex: "5",
+              boxShadow: "0 2px 5px rgba(0,0,0,0.1)"
             }}>
               <tr style={{ backgroundColor: "#00C802", color: "black" }}>
                 <th style={{ padding: "12px 15px" }}>Gen</th>
@@ -401,7 +429,10 @@ export default function Page() {
                   <td style={{
                     padding: "12px",
                     fontWeight: "bold",
-                    backgroundColor: "#f0f0f0"
+                    backgroundColor: "#f0f0f0",
+                    position: "sticky", 
+                    left: "0",
+                    zIndex: "1"
                   }}>{entry.generation}</td>
                   <td style={{ padding: "10px", borderLeft: "2px solid #eee" }}>{entry.systematic.A}/{entry.systematic.B}</td>
                   <td style={{ padding: "10px", color: getConditionalColor('effect', entry.systematic.effect) }}>{entry.systematic.effect.toFixed(2)}</td>
@@ -419,6 +450,9 @@ export default function Page() {
               ))}
             </tbody>
           </table>
+          
+        
+         
         </div>
       </div>
 

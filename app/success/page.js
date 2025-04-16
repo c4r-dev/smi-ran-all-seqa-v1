@@ -168,7 +168,7 @@ export default function SuccessPage() {
 
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="sequence" />
-            <YAxis allowDecimals={false} label={{ value: "Number of Students", angle: -90, position: "insideLeft" }} />
+            <YAxis allowDecimals={false} label={{ value: "Number of Selections", angle: -90, position: "insideLeft" }} />
             <Tooltip />
 
             <Bar dataKey="count" name="Count">
@@ -184,7 +184,7 @@ export default function SuccessPage() {
         </ResponsiveContainer>
       </div>
 
-      {/* Scrollable Table */}  
+      {/* Scrollable Table - Modified to match screenshot width */}  
       <div className="table-container">
         <h3>Student Reasoning</h3>
         {/* <p className="filter-info">Showing quality responses with 2+ words</p> */}
@@ -235,10 +235,10 @@ export default function SuccessPage() {
             align-items: center; /* Centers table horizontally */
             justify-content: center; /* Centers table vertically */
             width: 100%;
-            max-width: 800px;
-            margin: 30px auto; /* Increased top/bottom margin for better spacing */
+            max-width: 1200px; /* Increased from 800px to match the width in the screenshot */
+            margin: 30px auto;
             text-align: center;
-            padding: 0 20px; /* Added horizontal padding */
+            padding: 0 20px;
         }
 
         .filter-info {
@@ -253,32 +253,35 @@ export default function SuccessPage() {
           max-height: 300px;
           overflow-y: auto;
           border: 1px solid #ddd;
-          border-radius: 8px; /* Increased border radius for softer look */
+          border-radius: 8px;
           width: 100%; /* Ensures it takes the full width of the container */
-          position: relative; /* Allows the table to be centered */
-          margin-bottom: 30px; /* Adds space below the table */
-          padding: 15px; /* Added internal padding around the table */
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* Added subtle shadow */
+          position: relative;
+          margin-bottom: 30px;
+          padding: 15px;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
         }
 
         table {
           width: 100%;
           border-collapse: collapse;
+          table-layout: fixed; /* This ensures columns are of equal width */
         }
 
         thead {
           position: sticky;
           top: 0;
-          background-color: #f4f4f4; /* Keeps header visible */
-          z-index: 10; /* Ensures it stays on top */
+          background-color: #f4f4f4;
+          z-index: 10;
         }
 
         th, td {
-          width: 33.33%;
+          width: 33.33%; /* Equal width columns */
           border: 1px solid #ddd;
-          padding: 12px; /* Increased cell padding */
+          padding: 12px;
           text-align: center;
-          white-space: nowrap;
+          overflow: hidden; /* Ensures text doesn't overflow */
+          text-overflow: ellipsis; /* Adds '...' for overflowing text */
+          white-space: normal; /* Allow text to wrap */
         }
 
         th {
@@ -306,6 +309,18 @@ export default function SuccessPage() {
           color: #666;
           font-style: italic;
           padding: 20px;
+        }
+
+        /* Media query for smaller screens */
+        @media (max-width: 768px) {
+          .table-container {
+            padding: 0 10px;
+          }
+          
+          th, td {
+            padding: 8px;
+            font-size: 14px;
+          }
         }
       `}</style>
     </div>
