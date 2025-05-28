@@ -3,11 +3,110 @@ import { useEffect, useState, useRef } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from "recharts";
 import CustomButton from "../components/CustomButton";
 
+// BarChartVisualizer Component (copied from main page)
+const BarChartVisualizer = ({ sequence, title }) => {
+  if (!sequence) return null;
+  const countA = sequence.filter(item => item === 'A').length;
+  const countB = sequence.filter(item => item === 'B').length;
+  const total = sequence.length;
+  const percentA = total > 0 ? (countA / total * 100).toFixed(1) : 0;
+  const percentB = total > 0 ? (countB / total * 100).toFixed(1) : 0;
+  const barWidth = 60;
+  const maxBarHeight = 200;
+  const barHeightA = total > 0 ? Math.max((countA / total) * maxBarHeight, 30) : 30;
+  const barHeightB = total > 0 ? Math.max((countB / total) * maxBarHeight, 30) : 30;
+  const sequencePreview = sequence.slice(0, 49);
+
+  return (
+    <div style={{ backgroundColor: '#f9f9f9', padding: '20px', borderRadius: '8px', boxShadow: 'inset 0px 0px 5px rgba(0, 0, 0, 0.1)', height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <h4 style={{ textAlign: 'center', marginBottom: '10px' }}>{title}</h4>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '5px', padding: '8px', backgroundColor: 'white', borderRadius: '4px', boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)', minHeight: '100px' }}>
+        {sequencePreview.map((item, index) => (
+          <div key={`preview-${title}-${index}`} style={{ width: '32px', height: '32px', margin: '2px', backgroundColor: item === 'A' ? '#39E1F8' : '#FFA800', borderRadius: '4px', display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'white', fontWeight: 'bold', fontSize: '16px', textShadow: '1px 1px 1px rgba(0,0,0,0.3)' }} title={`Item ${index + 1}: ${item}`}>
+            {item}
+          </div>
+        ))}
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexGrow: 1, backgroundColor: 'white', borderRadius: '4px', padding: '10px', marginTop: '10px', boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)', marginBottom: '40px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-end', height: `${Math.max(barHeightA, barHeightB) + 10}px`, justifyContent: 'center', width: '100%', marginTop: '5px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginRight: '30px' }}>
+              <div style={{ width: `${barWidth + 15}px`, height: `${barHeightA}px`, backgroundColor: '#39E1F8', borderRadius: '6px 6px 0 0', display: 'flex', justifyContent: 'center', alignItems: 'center', transition: 'height 0.5s ease' }}>
+                <span style={{ color: 'white', fontWeight: 'bold', textShadow: '1px 1px 2px rgba(0,0,0,0.2)', fontSize: '14px' }}>{countA}</span>
+              </div>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{ width: `${barWidth + 15}px`, height: `${barHeightB}px`, backgroundColor: '#FFA800', borderRadius: '6px 6px 0 0', display: 'flex', justifyContent: 'center', alignItems: 'center', transition: 'height 0.5s ease' }}>
+                <span style={{ color: 'white', fontWeight: 'bold', textShadow: '1px 1px 2px rgba(0,0,0,0.2)', fontSize: '14px' }}>{countB}</span>
+              </div>
+            </div>
+          </div>
+          <div style={{ display: 'flex', width: '100%', justifyContent: 'center', marginTop: '5px' }}>
+            <div style={{ fontWeight: 'bold', fontSize: '16px', width: `${barWidth + 15}px`, textAlign: 'center', marginRight: '30px' }}>A</div>
+            <div style={{ fontWeight: 'bold', fontSize: '16px', width: `${barWidth + 15}px`, textAlign: 'center' }}>B</div>
+          </div>
+          <div style={{ display: 'flex', width: '100%', justifyContent: 'center', marginTop: '5px' }}>
+            <div style={{ fontSize: '14px', width: `${barWidth + 15}px`, textAlign: 'center', marginRight: '30px' }}>{percentA}%</div>
+            <div style={{ fontSize: '14px', width: `${barWidth + 15}px`, textAlign: 'center' }}>{percentB}%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Sequence generation functions (copied from main page)
+const generateSystematic = (n = 30) => {
+  return Array.from({ length: n }, (_, i) => (i % 2 === 0 ? "A" : "B"));
+};
+
+const generateManual = (n = 30) => {
+  if (n % 2 !== 0) n = n + 1;
+  const possibleDifferences = [0, 2, 4];
+  const difference = possibleDifferences[Math.floor(Math.random() * possibleDifferences.length)];
+  const countA = Math.floor(n / 2) + Math.floor(difference / 2);
+  const countB = n - countA;
+  const elements = Array(countA).fill('A').concat(Array(countB).fill('B'));
+  let result = [];
+  let prevElement = null;
+  let runLength = 0;
+  const maxRunLength = 3;
+  for (let i = elements.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [elements[i], elements[j]] = [elements[j], elements[i]];
+  }
+  for (let i = 0; i < elements.length; i++) {
+    const currentElement = elements[i];
+    if (currentElement === prevElement) {
+      runLength++;
+      if (runLength >= maxRunLength) {
+        for (let j = i + 1; j < elements.length; j++) {
+          if (elements[j] !== currentElement) {
+            [elements[i], elements[j]] = [elements[j], elements[i]];
+            runLength = 1;
+            break;
+          }
+        }
+      }
+    } else {
+      runLength = 1;
+    }
+    result.push(elements[i]);
+    prevElement = elements[i];
+  }
+  return result;
+};
+
+const generateRandom = (n = 30) => {
+  return Array.from({ length: n }, () => (Math.random() < 0.5 ? "A" : "B"));
+};
+
 export default function SuccessPage() {
   const [data, setData] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [filteredTableData, setFilteredTableData] = useState([]);
   const [showRandomSequence, setShowRandomSequence] = useState(false);
+  const [sequences, setSequences] = useState({ systematic: [], manual: [], random: [] });
   const [chartHeight, setChartHeight] = useState(400);
   const [isPurple, setIsPurple] = useState(false);
   const chartRef = useRef(null);
@@ -28,6 +127,19 @@ export default function SuccessPage() {
       hasAtLeastTwoWords(row.selected3)
     );
   };
+
+  // Generate sequences when component mounts
+  useEffect(() => {
+    const newSystematic = generateSystematic();
+    const newManual = generateManual();
+    const newRandom = generateRandom();
+
+    setSequences({
+      systematic: newSystematic,
+      manual: newManual,
+      random: newRandom,
+    });
+  }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -124,6 +236,14 @@ export default function SuccessPage() {
   const handleClick = () => {
     setShowRandomSequence(true);
     setIsPurple(true); // Set the button to purple when clicked
+    
+    // Scroll to bottom after visuals are rendered
+    setTimeout(() => {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+      });
+    }, 100); // Small delay to ensure visuals are rendered
   };
 
   // Custom styling for cells when random sequence is revealed
@@ -228,6 +348,59 @@ export default function SuccessPage() {
         </div>
       </div>
 
+      {/* Sequence blocks and bar charts - shown when Reveal Random Sequence is clicked */}
+      {showRandomSequence && (
+        <div style={{
+          maxWidth: "1200px",
+          margin: "30px auto",
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: "20px"
+        }}>
+          <div style={{
+            width: "320px",
+            backgroundColor: "white",
+            borderRadius: "8px",
+            boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.05)",
+            overflow: "hidden",
+            display: "flex"
+          }}>
+            <BarChartVisualizer
+              sequence={sequences.systematic}
+              title="Sequence 1"
+            />
+          </div>
+          <div style={{
+            width: "320px",
+            backgroundColor: "white",
+            borderRadius: "8px",
+            boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.05)",
+            overflow: "hidden",
+            display: "flex"
+          }}>
+            <BarChartVisualizer
+              sequence={sequences.manual}
+              title="Sequence 2"
+            />
+          </div>
+          <div style={{
+            width: "320px",
+            backgroundColor: "white",
+            borderRadius: "8px",
+            boxShadow: "0px 0px 20px #6f00ff",
+            overflow: "hidden",
+            display: "flex",
+            border: "2px solid #6f00ff"
+          }}>
+            <BarChartVisualizer
+              sequence={sequences.random}
+              title="Sequence 3 ✓ Random"
+            />
+          </div>
+        </div>
+      )}
+
       <style jsx>{`
         .table-container {
             display: flex;
@@ -252,41 +425,60 @@ export default function SuccessPage() {
         .scrollable-table {
           max-height: 300px;
           overflow-y: auto;
-          border: 1px solid #ddd;
+          border: 3px solid #ddd;
           border-radius: 8px;
-          width: 100%; /* Ensures it takes the full width of the container */
-          position: relative;
+          width: 100%;
           margin-bottom: 30px;
-          padding: 15px;
           box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
         }
 
         table {
           width: 100%;
           border-collapse: collapse;
-          table-layout: fixed; /* This ensures columns are of equal width */
+          table-layout: fixed;
         }
 
         thead {
           position: sticky;
           top: 0;
-          background-color: #f4f4f4;
           z-index: 10;
         }
 
         th, td {
-          width: 33.33%; /* Equal width columns */
-          border: 1px solid #ddd;
+          width: 33.33%;
+          border: 3px solid #ddd;
           padding: 12px;
           text-align: center;
-          overflow: hidden; /* Ensures text doesn't overflow */
-          text-overflow: ellipsis; /* Adds '...' for overflowing text */
-          white-space: normal; /* Allow text to wrap */
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: normal;
+        }
+
+        th:first-child, td:first-child {
+          border-left: none;
+        }
+
+        th:last-child, td:last-child {
+          border-right: none;
         }
 
         th {
-          background-color: #f4f4f4;
+          background-color: #d0d0d0;
           font-weight: bold;
+          border-top: none;
+          border-bottom: 3px solid #ddd;
+        }
+
+        td {
+          border-top: none;
+        }
+
+        tbody tr:first-child td {
+          border-top: none;
+        }
+
+        tbody tr:last-child td {
+          border-bottom: none;
         }
         
         .highlight-header {
