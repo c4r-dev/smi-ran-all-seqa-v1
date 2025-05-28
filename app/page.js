@@ -406,17 +406,17 @@ export default function Page() {
               <tr style={{ backgroundColor: "rgba(0, 200, 2, 0.6)", color: "black" }}>
                 <th style={{ padding: "8px 10px" }}></th>
                 <th style={{ padding: "8px 10px", borderLeft: "2px solid white" }}>A/B</th>
-                <th style={{ padding: "8px 10px" }}>Effect</th>
-                <th style={{ padding: "8px 10px" }}>p-value</th>
-                <th style={{ padding: "8px 10px" }}>Run</th>
+                <th style={{ padding: "8px 10px", cursor: "help" }} title="A quantitative measure of the strength of the phenomenon being studied. This measure is typically achieved by standardizing the difference between groups to contextualize the magnitude of the effect relative to the variability in the data.">Effect</th>
+                <th style={{ padding: "8px 10px", cursor: "help" }} title="Probability of obtaining results at least as extreme as those observed if H₀ is true.">p-value</th>
+                <th style={{ padding: "8px 10px", cursor: "help" }} title="A sequence of consecutive assignments to the same treatment group in a randomization scheme.">Run</th>
                 <th style={{ padding: "8px 10px", borderLeft: "2px solid white" }}>A/B</th>
-                <th style={{ padding: "8px 10px" }}>Effect</th>
-                <th style={{ padding: "8px 10px" }}>p-value</th>
-                <th style={{ padding: "8px 10px" }}>Run</th>
+                <th style={{ padding: "8px 10px", cursor: "help" }} title="A quantitative measure of the strength of the phenomenon being studied. This measure is typically achieved by standardizing the difference between groups to contextualize the magnitude of the effect relative to the variability in the data.">Effect</th>
+                <th style={{ padding: "8px 10px", cursor: "help" }} title="Probability of obtaining results at least as extreme as those observed if H₀ is true.">p-value</th>
+                <th style={{ padding: "8px 10px", cursor: "help" }} title="A sequence of consecutive assignments to the same treatment group in a randomization scheme.">Run</th>
                 <th style={{ padding: "8px 10px", borderLeft: "2px solid white" }}>A/B</th>
-                <th style={{ padding: "8px 10px" }}>Effect</th>
-                <th style={{ padding: "8px 10px" }}>p-value</th>
-                <th style={{ padding: "8px 10px" }}>Run</th>
+                <th style={{ padding: "8px 10px", cursor: "help" }} title="A quantitative measure of the strength of the phenomenon being studied. This measure is typically achieved by standardizing the difference between groups to contextualize the magnitude of the effect relative to the variability in the data.">Effect</th>
+                <th style={{ padding: "8px 10px", cursor: "help" }} title="Probability of obtaining results at least as extreme as those observed if H₀ is true.">p-value</th>
+                <th style={{ padding: "8px 10px", cursor: "help" }} title="A sequence of consecutive assignments to the same treatment group in a randomization scheme.">Run</th>
               </tr>
             </thead>
             <tbody>
@@ -435,17 +435,17 @@ export default function Page() {
                     zIndex: "1"
                   }}>{entry.generation}</td>
                   <td style={{ padding: "10px", borderLeft: "2px solid #eee" }}>{entry.systematic.A}/{entry.systematic.B}</td>
-                  <td style={{ padding: "10px", color: getConditionalColor('effect', entry.systematic.effect) }}>{entry.systematic.effect.toFixed(2)}</td>
-                  <td style={{ padding: "10px", color: getConditionalColor('pValue', entry.systematic.pValue) }}>{entry.systematic.pValue.toFixed(3)}</td>
-                  <td style={{ padding: "10px", color: getConditionalColor('run', entry.systematic.longestRun) }}>{entry.systematic.longestRun}</td>
+                  <td style={{ padding: "10px", color: getConditionalColor('effect', entry.systematic.effect), cursor: "help" }} title="A quantitative measure of the strength of the phenomenon being studied. This measure is typically achieved by standardizing the difference between groups to contextualize the magnitude of the effect relative to the variability in the data.">{entry.systematic.effect.toFixed(2)}</td>
+                  <td style={{ padding: "10px", color: getConditionalColor('pValue', entry.systematic.pValue), cursor: "help" }} title="Probability of obtaining results at least as extreme as those observed if H₀ is true.">{entry.systematic.pValue.toFixed(3)}</td>
+                  <td style={{ padding: "10px", color: getConditionalColor('run', entry.systematic.longestRun), cursor: "help" }} title="A sequence of consecutive assignments to the same treatment group in a randomization scheme.">{entry.systematic.longestRun}</td>
                   <td style={{ padding: "10px", borderLeft: "2px solid #eee" }}>{entry.manual.A}/{entry.manual.B}</td>
-                  <td style={{ padding: "10px", color: getConditionalColor('effect', entry.manual.effect) }}>{entry.manual.effect.toFixed(2)}</td>
-                  <td style={{ padding: "10px", color: getConditionalColor('pValue', entry.manual.pValue) }}>{entry.manual.pValue.toFixed(3)}</td>
-                  <td style={{ padding: "10px", color: getConditionalColor('run', entry.manual.longestRun) }}>{entry.manual.longestRun}</td>
+                  <td style={{ padding: "10px", color: getConditionalColor('effect', entry.manual.effect), cursor: "help" }} title="A quantitative measure of the strength of the phenomenon being studied. This measure is typically achieved by standardizing the difference between groups to contextualize the magnitude of the effect relative to the variability in the data.">{entry.manual.effect.toFixed(2)}</td>
+                  <td style={{ padding: "10px", color: getConditionalColor('pValue', entry.manual.pValue), cursor: "help" }} title="Probability of obtaining results at least as extreme as those observed if H₀ is true.">{entry.manual.pValue.toFixed(3)}</td>
+                  <td style={{ padding: "10px", color: getConditionalColor('run', entry.manual.longestRun), cursor: "help" }} title="A sequence of consecutive assignments to the same treatment group in a randomization scheme.">{entry.manual.longestRun}</td>
                   <td style={{ padding: "10px", borderLeft: "2px solid #eee" }}>{entry.random.A}/{entry.random.B}</td>
-                  <td style={{ padding: "10px", color: getConditionalColor('effect', entry.random.effect) }}>{entry.random.effect.toFixed(2)}</td>
-                  <td style={{ padding: "10px", color: getConditionalColor('pValue', entry.random.pValue) }}>{entry.random.pValue.toFixed(3)}</td>
-                  <td style={{ padding: "10px", color: getConditionalColor('run', entry.random.longestRun) }}>{entry.random.longestRun}</td>
+                  <td style={{ padding: "10px", color: getConditionalColor('effect', entry.random.effect), cursor: "help" }} title="A quantitative measure of the strength of the phenomenon being studied. This measure is typically achieved by standardizing the difference between groups to contextualize the magnitude of the effect relative to the variability in the data.">{entry.random.effect.toFixed(2)}</td>
+                  <td style={{ padding: "10px", color: getConditionalColor('pValue', entry.random.pValue), cursor: "help" }} title="Probability of obtaining results at least as extreme as those observed if H₀ is true.">{entry.random.pValue.toFixed(3)}</td>
+                  <td style={{ padding: "10px", color: getConditionalColor('run', entry.random.longestRun), cursor: "help" }} title="A sequence of consecutive assignments to the same treatment group in a randomization scheme.">{entry.random.longestRun}</td>
                 </tr>
               ))}
             </tbody>
