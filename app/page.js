@@ -14,8 +14,18 @@ const generateManual = (n = 30) => {
   if (n % 2 !== 0) n = n + 1;
   const possibleDifferences = [0, 2, 4];
   const difference = possibleDifferences[Math.floor(Math.random() * possibleDifferences.length)];
-  const countA = Math.floor(n / 2) + Math.floor(difference / 2);
-  const countB = n - countA;
+  
+  // Randomly choose whether A or B gets the larger group
+  const favorA = Math.random() < 0.5;
+  let countA, countB;
+  
+  if (favorA) {
+    countA = Math.floor(n / 2) + Math.floor(difference / 2);
+    countB = n - countA;
+  } else {
+    countB = Math.floor(n / 2) + Math.floor(difference / 2);
+    countA = n - countB;
+  }
   const elements = Array(countA).fill('A').concat(Array(countB).fill('B'));
   let result = [];
   let prevElement = null;
@@ -66,20 +76,7 @@ const getLongestRun = (sequence) => {
   return Math.max(maxRun, currentRun);
 };
 
-const calculateEffectSize = (set) => {
-  const trueEffectSize = 0.2;
-  const randomFactor = set === "systematic" ? Math.random() * 0.5 + 0.3 :
-    set === "manual" ? Math.random() * 0.2 + 0.1 :
-      Math.random() * 0.2 - 0.1;
-  return parseFloat((trueEffectSize + randomFactor).toFixed(2));
-};
 
-const calculatePValue = (set) => {
-  const randomFactor = set === "systematic" ? Math.random() * 0.03 :
-    set === "manual" ? Math.random() * 0.08 :
-      Math.random() * 0.25 + 0.05;
-  return parseFloat(randomFactor.toFixed(3));
-};
 
 // --- BarChartVisualizer Component remains the same ---
 const BarChartVisualizer = ({ sequence, title }) => {
@@ -166,22 +163,16 @@ export default function Page() {
       A: newSystematic.filter(item => item === 'A').length,
       B: newSystematic.filter(item => item === 'B').length,
       longestRun: getLongestRun(newSystematic),
-      effect: calculateEffectSize('systematic'),
-      pValue: calculatePValue('systematic')
     };
     const manualStats = {
       A: newManual.filter(item => item === 'A').length,
       B: newManual.filter(item => item === 'B').length,
       longestRun: getLongestRun(newManual),
-      effect: calculateEffectSize('manual'),
-      pValue: calculatePValue('manual')
     };
     const randomStats = {
       A: newRandom.filter(item => item === 'A').length,
       B: newRandom.filter(item => item === 'B').length,
       longestRun: getLongestRun(newRandom),
-      effect: calculateEffectSize('random'),
-      pValue: calculatePValue('random')
     };
 
     const currentGeneration = generationCount + 1;
@@ -273,12 +264,6 @@ export default function Page() {
 
   const getConditionalColor = (statType, value) => {
     switch (statType) {
-      case 'effect':
-        const effectValue = typeof value === 'number' ? value : parseFloat(value);
-        return effectValue > 0.15 ? "#228B22" : effectValue === 0 ? "#DC143C" : "inherit";
-      case 'pValue':
-        const pValueNum = typeof value === 'number' ? value : parseFloat(value);
-        return pValueNum < 0.05 ? "#228B22" : pValueNum > 0.5 ? "#DC143C" : "inherit";
       case 'run':
         const runValue = typeof value === 'number' ? value : parseInt(value, 10);
         return runValue > 5 ? "#DC143C" : runValue < 3 ? "#228B22" : "inherit";
@@ -355,11 +340,12 @@ export default function Page() {
       </div>
 
       <div style={{
-        maxWidth: "1200px",
+        width: "80%",
         margin: "30px auto",
         boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.1)",
         borderRadius: "8px",
-        backgroundColor: "white"
+        backgroundColor: "white",
+        border: "1px solid black"
       }}>
         <h3 style={{
           textAlign: "center",
@@ -394,28 +380,20 @@ export default function Page() {
             <thead style={{
               position: "sticky",
               top: "0",
-              zIndex: "5",
+              zIndex: "20",
               boxShadow: "0 2px 5px rgba(0,0,0,0.1)"
             }}>
-              <tr style={{ backgroundColor: "#00C802", color: "black" }}>
-                <th style={{ padding: "12px 15px" }}>Gen</th>
-                <th colSpan="4" style={{ padding: "12px 15px", borderLeft: "2px solid white" }}>Sequence 1 </th>
-                <th colSpan="4" style={{ padding: "12px 15px", borderLeft: "2px solid white" }}>Sequence 2 </th>
-                <th colSpan="4" style={{ padding: "12px 15px", borderLeft: "2px solid white" }}>Sequence 3 </th>
+              <tr style={{ backgroundColor: "#00C802", color: "black", position: "relative", zIndex: "21" }}>
+                <th colSpan="2" style={{ padding: "12px 15px", borderLeft: "2px solid white" }}>Sequence 1 </th>
+                <th colSpan="2" style={{ padding: "12px 15px", borderLeft: "2px solid white" }}>Sequence 2 </th>
+                <th colSpan="2" style={{ padding: "12px 15px", borderLeft: "2px solid white" }}>Sequence 3 </th>
               </tr>
-              <tr style={{ backgroundColor: "rgba(0, 200, 2, 0.6)", color: "black" }}>
-                <th style={{ padding: "8px 10px" }}></th>
+              <tr style={{ backgroundColor: "#66D966", color: "black", position: "relative", zIndex: "21" }}>
                 <th style={{ padding: "8px 10px", borderLeft: "2px solid white" }}>A/B</th>
-                <th style={{ padding: "8px 10px", cursor: "help" }} title="A quantitative measure of the strength of the phenomenon being studied. This measure is typically achieved by standardizing the difference between groups to contextualize the magnitude of the effect relative to the variability in the data.">Effect</th>
-                <th style={{ padding: "8px 10px", cursor: "help" }} title="Probability of obtaining results at least as extreme as those observed if H₀ is true.">p-value</th>
                 <th style={{ padding: "8px 10px", cursor: "help" }} title="A sequence of consecutive assignments to the same treatment group in a randomization scheme.">Run</th>
                 <th style={{ padding: "8px 10px", borderLeft: "2px solid white" }}>A/B</th>
-                <th style={{ padding: "8px 10px", cursor: "help" }} title="A quantitative measure of the strength of the phenomenon being studied. This measure is typically achieved by standardizing the difference between groups to contextualize the magnitude of the effect relative to the variability in the data.">Effect</th>
-                <th style={{ padding: "8px 10px", cursor: "help" }} title="Probability of obtaining results at least as extreme as those observed if H₀ is true.">p-value</th>
                 <th style={{ padding: "8px 10px", cursor: "help" }} title="A sequence of consecutive assignments to the same treatment group in a randomization scheme.">Run</th>
                 <th style={{ padding: "8px 10px", borderLeft: "2px solid white" }}>A/B</th>
-                <th style={{ padding: "8px 10px", cursor: "help" }} title="A quantitative measure of the strength of the phenomenon being studied. This measure is typically achieved by standardizing the difference between groups to contextualize the magnitude of the effect relative to the variability in the data.">Effect</th>
-                <th style={{ padding: "8px 10px", cursor: "help" }} title="Probability of obtaining results at least as extreme as those observed if H₀ is true.">p-value</th>
                 <th style={{ padding: "8px 10px", cursor: "help" }} title="A sequence of consecutive assignments to the same treatment group in a randomization scheme.">Run</th>
               </tr>
             </thead>
@@ -426,25 +404,11 @@ export default function Page() {
                     backgroundColor: entry.generation % 2 === 0 ? "#f9f9f9" : "white",
                     transition: "background-color 0.2s ease"
                   }}>
-                  <td style={{
-                    padding: "12px",
-                    fontWeight: "bold",
-                    backgroundColor: "#f0f0f0",
-                    position: "sticky", 
-                    left: "0",
-                    zIndex: "1"
-                  }}>{entry.generation}</td>
                   <td style={{ padding: "10px", borderLeft: "2px solid #eee" }}>{entry.systematic.A}/{entry.systematic.B}</td>
-                  <td style={{ padding: "10px", color: getConditionalColor('effect', entry.systematic.effect), cursor: "help" }} title="A quantitative measure of the strength of the phenomenon being studied. This measure is typically achieved by standardizing the difference between groups to contextualize the magnitude of the effect relative to the variability in the data.">{entry.systematic.effect.toFixed(2)}</td>
-                  <td style={{ padding: "10px", color: getConditionalColor('pValue', entry.systematic.pValue), cursor: "help" }} title="Probability of obtaining results at least as extreme as those observed if H₀ is true.">{entry.systematic.pValue.toFixed(3)}</td>
                   <td style={{ padding: "10px", color: getConditionalColor('run', entry.systematic.longestRun), cursor: "help" }} title="A sequence of consecutive assignments to the same treatment group in a randomization scheme.">{entry.systematic.longestRun}</td>
                   <td style={{ padding: "10px", borderLeft: "2px solid #eee" }}>{entry.manual.A}/{entry.manual.B}</td>
-                  <td style={{ padding: "10px", color: getConditionalColor('effect', entry.manual.effect), cursor: "help" }} title="A quantitative measure of the strength of the phenomenon being studied. This measure is typically achieved by standardizing the difference between groups to contextualize the magnitude of the effect relative to the variability in the data.">{entry.manual.effect.toFixed(2)}</td>
-                  <td style={{ padding: "10px", color: getConditionalColor('pValue', entry.manual.pValue), cursor: "help" }} title="Probability of obtaining results at least as extreme as those observed if H₀ is true.">{entry.manual.pValue.toFixed(3)}</td>
                   <td style={{ padding: "10px", color: getConditionalColor('run', entry.manual.longestRun), cursor: "help" }} title="A sequence of consecutive assignments to the same treatment group in a randomization scheme.">{entry.manual.longestRun}</td>
                   <td style={{ padding: "10px", borderLeft: "2px solid #eee" }}>{entry.random.A}/{entry.random.B}</td>
-                  <td style={{ padding: "10px", color: getConditionalColor('effect', entry.random.effect), cursor: "help" }} title="A quantitative measure of the strength of the phenomenon being studied. This measure is typically achieved by standardizing the difference between groups to contextualize the magnitude of the effect relative to the variability in the data.">{entry.random.effect.toFixed(2)}</td>
-                  <td style={{ padding: "10px", color: getConditionalColor('pValue', entry.random.pValue), cursor: "help" }} title="Probability of obtaining results at least as extreme as those observed if H₀ is true.">{entry.random.pValue.toFixed(3)}</td>
                   <td style={{ padding: "10px", color: getConditionalColor('run', entry.random.longestRun), cursor: "help" }} title="A sequence of consecutive assignments to the same treatment group in a randomization scheme.">{entry.random.longestRun}</td>
                 </tr>
               ))}

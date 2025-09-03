@@ -261,7 +261,7 @@ export default function SuccessPage() {
   return (
     <div>
       <h2 className="responsive-text" style={{ marginBottom: "40px" }}>
-        Here's how your classmates answered. Review their reasoning before revealing which sequence was truly random.
+        Explore other users' reasoning, then reveal which sequence was truly random.
       </h2>
 
       {/* Added div wrapper with top padding */}
@@ -306,7 +306,7 @@ export default function SuccessPage() {
 
       {/* Scrollable Table - Modified to match screenshot width */}  
       <div className="table-container">
-        <h3>Student Reasoning</h3>
+        <h3>Provided Reasoning</h3>
         {/* <p className="filter-info">Showing quality responses with 2+ words</p> */}
         <div className="scrollable-table">
           <table>
