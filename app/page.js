@@ -281,48 +281,20 @@ export default function Page() {
         "Generate new sequences" to observe patterns.
       </h2>
 
-      <div style={{
-        maxWidth: "1200px",
-        margin: "30px auto",
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "center",
-        gap: "20px"
-      }}>
-        <div style={{
-          width: "320px",
-          backgroundColor: "white",
-          borderRadius: "8px",
-          boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.05)",
-          overflow: "hidden",
-          display: "flex"
-        }}>
+      <div className="sequence-visualizer-container">
+        <div className="sequence-visualizer-item">
           <BarChartVisualizer
             sequence={sequences.systematic}
             title="Sequence 1"
           />
         </div>
-        <div style={{
-          width: "320px",
-          backgroundColor: "white",
-          borderRadius: "8px",
-          boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.05)",
-          overflow: "hidden",
-          display: "flex"
-        }}>
+        <div className="sequence-visualizer-item">
           <BarChartVisualizer
             sequence={sequences.manual}
             title="Sequence 2"
           />
         </div>
-        <div style={{
-          width: "320px",
-          backgroundColor: "white",
-          borderRadius: "8px",
-          boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.05)",
-          overflow: "hidden",
-          display: "flex"
-        }}>
+        <div className="sequence-visualizer-item">
           <BarChartVisualizer
             sequence={sequences.random}
             title="Sequence 3"
@@ -371,12 +343,7 @@ export default function Page() {
             position: "relative"
           }}
         >
-          <table style={{
-            minWidth: "900px",
-            width: "100%",
-            borderCollapse: "collapse",
-            textAlign: "center"
-          }}>
+          <table className="responsive-table">
             <thead style={{
               position: "sticky",
               top: "0",
@@ -420,7 +387,7 @@ export default function Page() {
         </div>
       </div>
 
-      <div className="radio-container" style={{ maxWidth: '800px', margin: '30px auto' }}>
+      <div className="radio-container form-container">
         <h3>Select which sequence you think is random.</h3>
         <div className="radio-group">
           <label>
@@ -438,25 +405,15 @@ export default function Page() {
         </div>
       </div>
 
-      <div style={{ maxWidth: '800px', margin: '20px auto' }}>
-        <h3 style={{ textAlign: "center", paddingTop: "10px" }}>
+      <div className="form-container">
+        <h3>
           Why do you think your selected sequence is the truly random one?
         </h3>
         <textarea
           value={textInput}
           onChange={handleTextChange}
           placeholder="Explain your reasoning..."
-          style={{
-            width: "100%",
-            height: "100px",
-            padding: "10px",
-            fontFamily: "'General Sans', sans-serif",
-            fontSize: "16px",
-            borderRadius: "5px",
-            border: "1px solid #ccc",
-            resize: "vertical",
-            boxSizing: 'border-box'
-          }}
+          className="responsive-textarea"
         ></textarea>
       </div>
 
@@ -470,7 +427,7 @@ export default function Page() {
           onClick={handleSubmit}
           disabled={!selectedOption || !textInput}
         >
-          Compare Answer
+          SUBMIT
         </button>
       </div>
     </div>

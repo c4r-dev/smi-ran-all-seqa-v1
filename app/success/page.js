@@ -350,52 +350,26 @@ export default function SuccessPage() {
 
       {/* Sequence blocks and bar charts - shown when Reveal Random Sequence is clicked */}
       {showRandomSequence && (
-        <div style={{
-          maxWidth: "1200px",
-          margin: "30px auto",
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          gap: "20px"
-        }}>
-          <div style={{
-            width: "320px",
-            backgroundColor: "white",
-            borderRadius: "8px",
-            boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.05)",
-            overflow: "hidden",
-            display: "flex"
-          }}>
+        <div className="sequence-visualizer-container">
+          <div className="sequence-visualizer-item">
             <BarChartVisualizer
               sequence={sequences.systematic}
-              title="Sequence 1"
+              title="Alternating Allocation"
             />
           </div>
-          <div style={{
-            width: "320px",
-            backgroundColor: "white",
-            borderRadius: "8px",
-            boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.05)",
-            overflow: "hidden",
-            display: "flex"
-          }}>
+          <div className="sequence-visualizer-item">
             <BarChartVisualizer
               sequence={sequences.manual}
-              title="Sequence 2"
+              title="Manual Allocation"
             />
           </div>
-          <div style={{
-            width: "320px",
-            backgroundColor: "white",
-            borderRadius: "8px",
+          <div className="sequence-visualizer-item" style={{
             boxShadow: "0px 0px 20px #6f00ff",
-            overflow: "hidden",
-            display: "flex",
             border: "2px solid #6f00ff"
           }}>
             <BarChartVisualizer
               sequence={sequences.random}
-              title="Sequence 3 ✓ Random"
+              title="Randomized Allocation"
             />
           </div>
         </div>
